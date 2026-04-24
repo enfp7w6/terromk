@@ -14,19 +14,11 @@
       theme: {
         extend: {
           colors: {
-            base: '#1e1e1e',
-            surface: '#252526',
-            surfaceHover: '#2a2d2e',
-            border: '#333333',
-            textMain: '#e6e6e6',
-            textMuted: '#858585',
-            neonGreen: '#00FF00',
-            neonBlue: '#00D7FF',
-            neonGreenDim: '#00FF0033',
-            neonBlueDim: '#00D7FF33',
-            pureBlack: '#000000',
-            darkGray: '#111111',
-            codeBg: '#0d1117',
+            base: '#1e1e1e', surface: '#252526', surfaceHover: '#2a2d2e',
+            border: '#333333', textMain: '#e6e6e6', textMuted: '#858585',
+            neonGreen: '#00FF00', neonBlue: '#00D7FF',
+            neonGreenDim: '#00FF0033', neonBlueDim: '#00D7FF33',
+            pureBlack: '#000000', darkGray: '#111111', codeBg: '#0d1117',
           },
           fontFamily: {
             sans: ['Space Grotesk', 'sans-serif'],
@@ -37,12 +29,14 @@
             'float': 'float 6s ease-in-out infinite',
             'scanline': 'scanline 8s linear infinite',
             'modal-in': 'modal-in 0.4s cubic-bezier(0.16,1,0.3,1) forwards',
+            'result-in': 'result-in 0.3s ease forwards',
           },
           keyframes: {
             blink: { '0%,100%': { opacity: '1' }, '50%': { opacity: '0' } },
             float: { '0%,100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-10px)' } },
             scanline: { '0%': { transform: 'translateY(-100%)' }, '100%': { transform: 'translateY(100vh)' } },
             'modal-in': { from: { opacity: '0', transform: 'scale(0.95) translateY(20px)' }, to: { opacity: '1', transform: 'scale(1) translateY(0)' } },
+            'result-in': { from: { opacity: '0', transform: 'translateY(6px)' }, to: { opacity: '1', transform: 'translateY(0)' } },
           },
         }
       }
@@ -58,12 +52,9 @@
     .glow-green { text-shadow: 0 0 10px #00FF0066, 0 0 40px #00FF0022; }
     .glow-blue { text-shadow: 0 0 10px #00D7FF66, 0 0 40px #00D7FF22; }
     .scanline-overlay::before {
-      content: '';
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,0,0.015) 2px, rgba(0,255,0,0.015) 4px);
-      pointer-events: none;
-      z-index: 60;
+      pointer-events: none; z-index: 60;
     }
     .grid-bg {
       background-image: linear-gradient(rgba(0,255,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,0,0.03) 1px, transparent 1px);
@@ -112,15 +103,59 @@
     .modal-video-wrapper .video-placeholder {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     }
-    .gallery-thumb {
-      transition: all 0.2s ease; cursor: pointer; opacity: 0.7;
+    .gallery-thumb { transition: all 0.2s ease; cursor: pointer; opacity: 0.7; }
+    .gallery-thumb:hover, .gallery-thumb.active { opacity: 1; border-color: #00FF00; box-shadow: 0 0 10px #00FF0033; }
+    .planet-btn { transition: all 0.2s ease; position: relative; overflow: hidden; }
+    .planet-btn::before {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: #00FF00; transform: scaleX(0); transition: transform 0.2s ease;
+      box-shadow: 0 0 8px #00FF0066;
     }
-    .gallery-thumb:hover, .gallery-thumb.active {
-      opacity: 1; border-color: #00FF00;
-      box-shadow: 0 0 10px #00FF0033;
+    .planet-btn:hover::before, .planet-btn.active::before { transform: scaleX(1); }
+    .planet-btn:hover, .planet-btn.active { color: #00FF00; border-color: #00FF0066; background: #00FF0011; }
+    .data-row { transition: all 0.2s ease; }
+    .data-row:hover { background: #00FF0008; }
+    .planet-dot { display: inline-block; border-radius: 50%; flex-shrink: 0; }
+    .age-input {
+      background: #0a0a0a; border: 1px solid #333333; color: #e6e6e6;
+      font-family: 'JetBrains Mono', monospace; font-size: 12px;
+      padding: 6px 10px; border-radius: 6px; outline: none; transition: border-color 0.2s ease;
     }
+    .age-input:focus { border-color: #00FF00; box-shadow: 0 0 8px #00FF0022; }
+    .age-input::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
+    .calc-btn { transition: all 0.2s ease; }
+    .calc-btn:hover { box-shadow: 0 0 16px #00FF0044; transform: translateY(-1px); }
+    .calc-btn:active { transform: translateY(0); }
+    .age-result-card { animation: result-in 0.3s ease forwards; }
+    .filter-btn { transition: all 0.2s ease; }
+    .thumb-wrap {
+      position: relative;
+      background: #111;
+      overflow: hidden;
+    }
+    .thumb-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .thumb-wrap iframe {
+      width: 100%; height: 100%; border: 0;
+      position: absolute; top: 0; left: 0;
+    }
+    .thumb-wrap:hover img {
+      transform: scale(1.05);
+    }
+    .video-error {
+      position: absolute; inset: 0; display: flex;
+      align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #0a0a0a, #121212);
+      text-align: center; padding: 1rem;
+    }
+    .video-error p { font-size: 11px; color: #858585; line-height: 1.4; }
+    .video-error strong { color: #e6e6e6; font-weight: 600; }
     @media (max-width: 768px) {
       .hero-title { font-size: 2rem !important; }
+      .calc-grid { grid-template-columns: 1fr !important; }
+      .age-grid { grid-template-columns: 1fr !important; }
     }
   </style>
 </head>
@@ -235,44 +270,75 @@
 
   <!-- ==================== PROJECTS ==================== -->
   <section id="projects" class="relative py-24 md:py-32">
-    <div class="max-w-3xl mx-auto px-6">
+    <div class="max-w-5xl mx-auto px-6">
       <div class="fade-in mb-16">
         <div class="flex items-center gap-3 mb-4">
           <span class="text-neonGreen text-sm font-mono">$</span>
           <span class="text-textMuted text-sm">ls -la ~/projects</span>
         </div>
         <h2 class="font-sans font-bold text-3xl md:text-4xl tracking-tight text-textMain">Projects</h2>
-        <p class="text-textMuted text-sm mt-3">Click the project to view the video and technical breakdown.</p>
+        <p class="text-textMuted text-sm mt-3">Click any project to view the video and technical breakdown.</p>
         <div class="w-16 h-px bg-neonGreen mt-6" style="box-shadow: 0 0 8px #00FF0066;"></div>
       </div>
 
-      <!-- Solar System Card -->
-      <div class="fade-in repo-card project-item border border-border rounded-xl overflow-hidden" data-project="0" style="background: #0d1117;">
-        <div class="relative h-64 md:h-80 overflow-hidden group">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg" alt="Saturn" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" style="filter: saturate(0.8) contrast(1.1);">
-          <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent"></div>
-          <div class="absolute top-3 left-3 flex gap-2">
-            <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonGreenDim text-neonGreen border border-neonGreen">blender</span>
-            <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">eevee</span>
+      <!-- Filter -->
+      <div class="fade-in flex flex-wrap gap-3 mb-10">
+        <button class="filter-btn active px-4 py-1.5 rounded-full text-xs border border-neonGreen text-neonGreen bg-neonGreenDim transition-all" data-filter="all">all</button>
+        <button class="filter-btn px-4 py-1.5 rounded-full text-xs border border-border text-textMuted hover:border-neonBlue hover:text-neonBlue transition-all" data-filter="blender">blender</button>
+        <button class="filter-btn px-4 py-1.5 rounded-full text-xs border border-border text-textMuted hover:border-neonBlue hover:text-neonBlue transition-all" data-filter="aftereffects">after effects</button>
+      </div>
+
+      <!-- Cards Grid -->
+      <div class="grid md:grid-cols-2 gap-6" id="projects-grid">
+
+        <!-- Card 1: Solar System -->
+        <div class="fade-in repo-card project-item border border-border rounded-xl overflow-hidden" data-category="blender" data-project="0" style="background: #0d1117;">
+          <div class="thumb-wrap relative h-52 group">
+            <div class="card-player absolute inset-0" data-project-index="0" data-player-context="card"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent pointer-events-none"></div>
+            <div class="absolute top-3 left-3 flex gap-2 pointer-events-none">
+              <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonGreenDim text-neonGreen border border-neonGreen">blender</span>
+              <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">eevee</span>
+            </div>
           </div>
-          <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <div class="w-16 h-16 rounded-full bg-neonGreen bg-opacity-20 border border-neonGreen flex items-center justify-center backdrop-blur-sm" style="box-shadow: 0 0 30px rgba(0,255,0,0.2);">
-              <span class="iconify text-neonGreen" data-icon="mdi:play" data-width="32"></span>
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4 mb-2">
+              <h3 class="font-sans font-semibold text-lg text-textMain">solar-system</h3>
+              <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18"></span>
+            </div>
+            <p class="text-textMuted text-xs leading-relaxed mb-4">3D solar system in Blender with orbital mechanics, procedural textures, volumetric lighting, and a built-in planetary data & age calculator.</p>
+            <div class="flex items-center gap-4 text-xs text-textMuted">
+              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonGreen"></span>Blender</span>
+              <span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:star-outline" data-width="14"></span>128</span>
+              <span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:source-fork" data-width="14"></span>23</span>
             </div>
           </div>
         </div>
-        <div class="p-6">
-          <div class="flex items-start justify-between gap-4 mb-2">
-            <h3 class="font-sans font-semibold text-xl text-textMain">solar-system</h3>
-            <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18"></span>
+
+        <!-- Card 2: Week 1 Progress (Rotoscoping) -->
+        <div class="fade-in repo-card project-item border border-border rounded-xl overflow-hidden" data-category="aftereffects" data-project="1" style="background: #0d1117;">
+          <div class="thumb-wrap relative h-52 group">
+            <div class="card-player absolute inset-0" data-project-index="1" data-player-context="card"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent pointer-events-none"></div>
+            <div class="absolute top-3 left-3 flex gap-2 pointer-events-none">
+              <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">after effects</span>
+              <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider text-textMuted border border-border" style="background: #161b22;">rotoscoping</span>
+            </div>
           </div>
-          <p class="text-textMuted text-xs leading-relaxed mb-4">An interactive 3D solar system created in Blender with accurate orbital mechanics, procedural textures, and volumetric lighting.</p>
-          <div class="flex items-center gap-4 text-xs text-textMuted">
-            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonGreen"></span>Blender</span>
-            <span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:star-outline" data-width="14"></span>128</span>
-            <span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:source-fork" data-width="14"></span>23</span>
+          <div class="p-6">
+            <div class="flex items-start justify-between gap-4 mb-2">
+              <h3 class="font-sans font-semibold text-lg text-textMain">week-1-progress</h3>
+              <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18"></span>
+            </div>
+            <p class="text-textMuted text-xs leading-relaxed mb-4">First week rotoscoping exercise in After Effects — frame-by-frame mask isolation of a subject from live-action footage.</p>
+            <div class="flex items-center gap-4 text-xs text-textMuted">
+              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonBlue"></span>After Effects</span>
+              <span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:star-outline" data-width="14"></span>42</span>
+              <span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:source-fork" data-width="14"></span>7</span>
+            </div>
           </div>
         </div>
+
       </div>
 
       <div class="fade-in mt-12 flex justify-center">
@@ -319,12 +385,78 @@
             </h3>
             <p class="text-textMuted text-sm leading-relaxed" id="modal-description"></p>
           </div>
-          <div>
+
+          <!-- PLANETARY DATA CALCULATOR -->
+          <div id="modal-calc-section" style="display:none;">
             <h3 class="text-[10px] uppercase tracking-widest text-textMuted mb-3 flex items-center gap-2">
-              <span class="iconify text-neonBlue" data-icon="mdi:cog-outline" data-width="14"></span>Technical Breakdown
+              <span class="iconify text-neonBlue" data-icon="mdi:calculator-variant-outline" data-width="14"></span>Planetary Data Calculator
             </h3>
-            <div class="grid sm:grid-cols-2 gap-3" id="modal-tech-details"></div>
+            <div class="border border-border rounded-lg overflow-hidden" style="background: #0a0a0a;">
+              <div class="terminal-header-dots flex items-center justify-between px-4 py-2 border-b border-border" style="background: #161b22;">
+                <div class="flex items-center gap-2"><span style="background:#ff5f57;"></span><span style="background:#febc2e;"></span><span style="background:#28c840;"></span></div>
+                <span class="text-[10px] text-textMuted">planetary_data.sh</span>
+                <span class="text-[10px] text-neonGreen">v1.0</span>
+              </div>
+              <div class="p-3 border-b border-border flex flex-wrap gap-1.5" id="planet-buttons"></div>
+              <div class="px-4 py-3 border-b border-border flex items-center gap-3" style="background: #0d1117;">
+                <span class="planet-dot" id="calc-planet-dot" style="width:28px;height:28px;"></span>
+                <div>
+                  <div class="font-sans font-semibold text-base text-textMain" id="calc-planet-name">—</div>
+                  <div class="text-[10px] text-textMuted" id="calc-planet-type">—</div>
+                </div>
+                <div class="ml-auto text-right hidden sm:block">
+                  <div class="text-[10px] text-textMuted">Order from Sun</div>
+                  <div class="text-sm text-neonBlue font-mono" id="calc-planet-order">—</div>
+                </div>
+              </div>
+              <div class="p-3">
+                <div class="calc-grid grid grid-cols-2 sm:grid-cols-3 gap-2" id="calc-data-grid"></div>
+              </div>
+              <div class="px-4 py-3 border-t border-border flex items-start gap-2" style="background: #0d1117;">
+                <span class="text-neonBlue mt-0.5 flex-shrink-0"><span class="iconify" data-icon="mdi:lightbulb-on-outline" data-width="14"></span></span>
+                <p class="text-[11px] text-textMuted leading-relaxed" id="calc-fun-fact">Select a planet above to view its data.</p>
+              </div>
+            </div>
           </div>
+
+          <!-- PLANETARY AGE CALCULATOR -->
+          <div id="modal-age-section" style="display:none;">
+            <h3 class="text-[10px] uppercase tracking-widest text-textMuted mb-3 flex items-center gap-2">
+              <span class="iconify text-neonGreen" data-icon="mdi:calendar-clock-outline" data-width="14"></span>Planetary Age Calculator
+            </h3>
+            <div class="border border-border rounded-lg overflow-hidden" style="background: #0a0a0a;">
+              <div class="terminal-header-dots flex items-center justify-between px-4 py-2 border-b border-border" style="background: #161b22;">
+                <div class="flex items-center gap-2"><span style="background:#ff5f57;"></span><span style="background:#febc2e;"></span><span style="background:#28c840;"></span></div>
+                <span class="text-[10px] text-textMuted">age_calculator.sh</span>
+                <span class="text-[10px] text-neonGreen">v1.0</span>
+              </div>
+              <div class="p-4 border-b border-border flex flex-col sm:flex-row items-stretch sm:items-end gap-3" style="background: #0d1117;">
+                <div class="flex-1">
+                  <label class="text-[10px] uppercase tracking-widest text-textMuted block mb-1.5 flex items-center gap-1.5">
+                    <span class="iconify" data-icon="mdi:cake-variant-outline" data-width="12"></span>Your birthdate
+                  </label>
+                  <input type="date" id="age-birthdate" class="age-input w-full" max="">
+                </div>
+                <button onclick="calculateAllAges()" class="calc-btn px-5 py-2 rounded-lg bg-neonGreen text-pureBlack font-sans font-semibold text-xs flex items-center justify-center gap-2 flex-shrink-0" style="box-shadow: 0 0 12px #00FF0033;">
+                  <span class="iconify" data-icon="mdi:calculator" data-width="16"></span>Calculate Age
+                </button>
+              </div>
+              <div class="px-4 py-3 border-b border-border flex items-center justify-between" style="background: #0d1117;">
+                <div class="flex items-center gap-2">
+                  <span class="planet-dot" style="width:12px;height:12px;background:#4d9de0;box-shadow:0 0 6px #4d9de066;"></span>
+                  <span class="text-xs text-textMuted">Your age on Earth</span>
+                </div>
+                <span class="text-sm text-textMain font-mono" id="age-earth-value">—</span>
+              </div>
+              <div class="p-3" id="age-results-area">
+                <div class="text-center py-6 text-textMuted text-xs">
+                  <span class="iconify inline-block mb-2" data-icon="mdi:rocket-launch-outline" data-width="24"></span>
+                  <p>Enter your birthdate and hit calculate to see your age on every planet.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div>
             <h3 class="text-[10px] uppercase tracking-widest text-textMuted mb-3 flex items-center gap-2">
               <span class="iconify text-neonGreen" data-icon="mdi:layers-triple-outline" data-width="14"></span>Tech Stack
@@ -369,70 +501,314 @@
 
   <!-- ==================== SCRIPTS ==================== -->
   <script>
+    const planetaryData = {
+      mercury: { name:'Mercury', type:'Terrestrial Planet', order:'1st', color:'#b5b5b5', orbitalPeriodDays:87.97, mass:'3.285 × 10²³ kg', diameter:'4,879 km', distFromSun:'57.9 million km', orbitalPeriod:'88 Earth days', rotationPeriod:'58.6 Earth days', moons:'0', gravity:'3.7 m/s²', avgTemp:'167°C (mean)', dayLength:'175.9 Earth days', escapeVelocity:'4.3 km/s', funFact:'Mercury is the smallest planet in our solar system and closest to the Sun. Despite being nearest to the Sun, it is not the hottest — Venus holds that record due to its thick atmosphere.' },
+      venus: { name:'Venus', type:'Terrestrial Planet', order:'2nd', color:'#e8cda0', orbitalPeriodDays:224.7, mass:'4.867 × 10²⁴ kg', diameter:'12,104 km', distFromSun:'108.2 million km', orbitalPeriod:'225 Earth days', rotationPeriod:'243 Earth days', moons:'0', gravity:'8.87 m/s²', avgTemp:'464°C (mean)', dayLength:'116.8 Earth days', escapeVelocity:'10.4 km/s', funFact:'Venus rotates backwards compared to most planets, meaning the Sun rises in the west and sets in the east. A single day on Venus is longer than its entire year.' },
+      earth: { name:'Earth', type:'Terrestrial Planet', order:'3rd', color:'#4d9de0', orbitalPeriodDays:365.25, mass:'5.972 × 10²⁴ kg', diameter:'12,742 km', distFromSun:'149.6 million km', orbitalPeriod:'365.25 days', rotationPeriod:'23.93 hours', moons:'1', gravity:'9.81 m/s²', avgTemp:'15°C (mean)', dayLength:'24 hours', escapeVelocity:'11.2 km/s', funFact:'Earth is the only known planet to support life. About 71% of its surface is covered in water, and its magnetic field protects the atmosphere from solar wind.' },
+      mars: { name:'Mars', type:'Terrestrial Planet', order:'4th', color:'#c1440e', orbitalPeriodDays:687, mass:'6.39 × 10²³ kg', diameter:'6,779 km', distFromSun:'227.9 million km', orbitalPeriod:'687 Earth days', rotationPeriod:'24.6 hours', moons:'2', gravity:'3.72 m/s²', avgTemp:'-65°C (mean)', dayLength:'24.6 hours', escapeVelocity:'5.0 km/s', funFact:'Mars has the tallest volcano in the solar system — Olympus Mons, standing at 21.9 km high, roughly 2.5 times the height of Mount Everest.' },
+      jupiter: { name:'Jupiter', type:'Gas Giant', order:'5th', color:'#c88b3a', orbitalPeriodDays:4333, mass:'1.898 × 10²⁷ kg', diameter:'139,820 km', distFromSun:'778.5 million km', orbitalPeriod:'11.86 Earth years', rotationPeriod:'9.93 hours', moons:'95', gravity:'24.79 m/s²', avgTemp:'-110°C (cloud top)', dayLength:'9.93 hours', escapeVelocity:'59.5 km/s', funFact:'Jupiter is so massive that it could fit all other planets in the solar system inside it. Its Great Red Spot is a storm that has been raging for over 400 years.' },
+      saturn: { name:'Saturn', type:'Gas Giant', order:'6th', color:'#e0c068', orbitalPeriodDays:10759, mass:'5.683 × 10²⁶ kg', diameter:'116,460 km', distFromSun:'1.434 billion km', orbitalPeriod:'29.46 Earth years', rotationPeriod:'10.7 hours', moons:'146', gravity:'10.44 m/s²', avgTemp:'-140°C (cloud top)', dayLength:'10.7 hours', escapeVelocity:'35.5 km/s', funFact:'Saturn\'s rings span up to 282,000 km but are only about 10 meters thick. The planet is less dense than water — it would theoretically float in a bathtub large enough to hold it.' },
+      uranus: { name:'Uranus', type:'Ice Giant', order:'7th', color:'#73c2d0', orbitalPeriodDays:30687, mass:'8.681 × 10²⁵ kg', diameter:'50,724 km', distFromSun:'2.871 billion km', orbitalPeriod:'84 Earth years', rotationPeriod:'17.2 hours', moons:'28', gravity:'8.69 m/s²', avgTemp:'-195°C (cloud top)', dayLength:'17.2 hours', escapeVelocity:'21.3 km/s', funFact:'Uranus rotates on its side with an axial tilt of 98°, likely caused by a massive collision billions of years ago. It was the first planet discovered with a telescope in 1781.' },
+      neptune: { name:'Neptune', type:'Ice Giant', order:'8th', color:'#3f54ba', orbitalPeriodDays:60190, mass:'1.024 × 10²⁶ kg', diameter:'49,244 km', distFromSun:'4.495 billion km', orbitalPeriod:'164.8 Earth years', rotationPeriod:'16.1 hours', moons:'16', gravity:'11.15 m/s²', avgTemp:'-200°C (cloud top)', dayLength:'16.1 hours', escapeVelocity:'23.5 km/s', funFact:'Neptune has the strongest winds in the solar system, reaching speeds of up to 2,100 km/h. It was the first planet located through mathematical prediction rather than direct observation.' },
+      pluto: { name:'Pluto', type:'Dwarf Planet', order:'9th (dwarf)', color:'#c4a882', orbitalPeriodDays:90560, mass:'1.303 × 10²² kg', diameter:'2,376 km', distFromSun:'5.906 billion km', orbitalPeriod:'248 Earth years', rotationPeriod:'6.39 Earth days', moons:'5', gravity:'0.62 m/s²', avgTemp:'-229°C (mean)', dayLength:'6.39 Earth days', escapeVelocity:'1.2 km/s', funFact:'Pluto was reclassified from a planet to a dwarf planet in 2006 by the IAU. Its largest moon, Charon, is so big relative to Pluto that they are often considered a binary system — both orbit a shared center of gravity.' }
+    };
+
+    let currentPlanet = 'earth';
+
+    function selectPlanet(key) {
+      currentPlanet = key;
+      const p = planetaryData[key];
+      document.querySelectorAll('.planet-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector(`.planet-btn[data-planet="${key}"]`).classList.add('active');
+      document.getElementById('calc-planet-dot').style.background = p.color;
+      document.getElementById('calc-planet-dot').style.boxShadow = `0 0 12px ${p.color}66`;
+      document.getElementById('calc-planet-name').textContent = p.name;
+      document.getElementById('calc-planet-type').textContent = p.type;
+      document.getElementById('calc-planet-order').textContent = p.order;
+      const fields = [
+        { icon:'mdi:weight', label:'Mass', value:p.mass },
+        { icon:'mdi:circle-outline', label:'Diameter', value:p.diameter },
+        { icon:'mdi:white-balance-sunny', label:'Distance from Sun', value:p.distFromSun },
+        { icon:'mdi:orbit', label:'Orbital Period', value:p.orbitalPeriod },
+        { icon:'mdi:rotate-right', label:'Rotation Period', value:p.rotationPeriod },
+        { icon:'mdi:moon-waning-crescent', label:'Moons', value:p.moons },
+        { icon:'mdi:arrow-down-bold', label:'Surface Gravity', value:p.gravity },
+        { icon:'mdi:thermometer', label:'Avg Temperature', value:p.avgTemp },
+        { icon:'mdi:clock-outline', label:'Day Length', value:p.dayLength },
+        { icon:'mdi:rocket-launch-outline', label:'Escape Velocity', value:p.escapeVelocity },
+        { icon:'mdi:arrow-expand-horizontal', label:'Sun Distance (AU)', value:(parseFloat(p.distFromSun.replace(/[^0-9.]/g,''))/149.6).toFixed(2)+' AU' },
+        { icon:'mdi:scale-balance', label:'Mass (× Earth)', value:(parseFloat(p.mass.replace(/[^0-9.]/g,''))/5.972).toFixed(2)+'× Earth' }
+      ];
+      document.getElementById('calc-data-grid').innerHTML = fields.map(f => `
+        <div class="data-row flex items-start gap-2 px-3 py-2 rounded border border-border" style="background:#0d1117;">
+          <span class="iconify text-textMuted flex-shrink-0 mt-0.5" data-icon="${f.icon}" data-width="13"></span>
+          <div class="min-w-0">
+            <div class="text-[9px] uppercase tracking-wider text-textMuted">${f.label}</div>
+            <div class="text-xs text-textMain break-all">${f.value}</div>
+          </div>
+        </div>`).join('');
+      document.getElementById('calc-fun-fact').textContent = p.funFact;
+    }
+
+    function calculateAllAges() {
+      const input = document.getElementById('age-birthdate').value;
+      if (!input) {
+        document.getElementById('age-results-area').innerHTML = `<div class="text-center py-6"><span class="iconify inline-block mb-2 text-neonBlue" data-icon="mdi:alert-circle-outline" data-width="24"></span><p class="text-textMuted text-xs">Please select your birthdate first.</p></div>`;
+        return;
+      }
+      const birthDate = new Date(input), now = new Date();
+      if (birthDate > now) {
+        document.getElementById('age-results-area').innerHTML = `<div class="text-center py-6"><span class="iconify inline-block mb-2 text-neonBlue" data-icon="mdi:alert-circle-outline" data-width="24"></span><p class="text-textMuted text-xs">Birthdate cannot be in the future.</p></div>`;
+        return;
+      }
+      const diffDays = (now - birthDate) / (1000*60*60*24);
+      const earthWholeYears = Math.floor(diffDays / 365.25);
+      const remainingDays = Math.floor(diffDays - (earthWholeYears * 365.25));
+      document.getElementById('age-earth-value').innerHTML = `<span class="text-neonGreen">${earthWholeYears}</span> years, <span class="text-neonBlue">${remainingDays}</span> days`;
+      const order = ['mercury','venus','earth','mars','jupiter','saturn','uranus','neptune','pluto'];
+      let html = '<div class="age-grid grid grid-cols-1 sm:grid-cols-3 gap-2">';
+      order.forEach((key, i) => {
+        const p = planetaryData[key];
+        const py = diffDays / p.orbitalPeriodDays;
+        const wy = Math.floor(py), rd = Math.floor(diffDays - (wy * p.orbitalPeriodDays));
+        const sel = key === currentPlanet;
+        html += `<div class="age-result-card flex items-center gap-3 px-3 py-3 rounded-lg border ${sel?'border-neonGreen':'border-border'}" style="background:${sel?'#00FF000a':'#0d1117'};animation-delay:${i*60}ms;">
+          <span class="planet-dot flex-shrink-0" style="width:14px;height:14px;background:${p.color};box-shadow:0 0 8px ${p.color}55;"></span>
+          <div class="min-w-0 flex-1">
+            <div class="text-[10px] uppercase tracking-wider text-textMuted">${p.name}</div>
+            <div class="text-xs text-textMain"><span class="${sel?'text-neonGreen font-semibold':''}">${wy.toLocaleString()}</span><span class="text-textMuted"> yr</span> <span class="${sel?'text-neonBlue font-semibold':''}">${rd.toLocaleString()}</span><span class="text-textMuted"> d</span></div>
+          </div>
+          <div class="text-right flex-shrink-0">
+            <div class="text-[9px] text-textMuted">total</div>
+            <div class="text-[11px] font-mono ${sel?'text-neonGreen':'text-textMain'}">${py.toFixed(2)}</div>
+          </div>
+        </div>`;
+      });
+      html += '</div>';
+      const selP = planetaryData[currentPlanet];
+      const selPy = diffDays / selP.orbitalPeriodDays;
+      const nxtBday = (Math.floor(selPy)+1) * selP.orbitalPeriodDays;
+      const dUntil = Math.floor(Math.ceil(nxtBday - diffDays));
+      html += `<div class="mt-3 px-3 py-2.5 rounded-lg border border-neonBlueDim flex items-center gap-2" style="background:#0d1117;">
+        <span class="iconify text-neonBlue flex-shrink-0" data-icon="mdi:gift-outline" data-width="16"></span>
+        <p class="text-[11px] text-textMuted">Your next <span class="text-neonBlue">${selP.name}</span> birthday is in <span class="text-textMain font-semibold">${dUntil.toLocaleString()} Earth days</span> <span class="text-textMuted">(~${(dUntil/30.44).toFixed(1)} months)</span></p>
+      </div>`;
+      document.getElementById('age-results-area').innerHTML = html;
+    }
+
+    // ── Project Data ──
     const projects = [
       {
         title: 'Solar System',
-        tags: [
-          { label: 'blender', color: 'green' },
-          { label: 'eevee', color: 'blue' }
-        ],
+        tags: [{ label:'blender', color:'green' }, { label:'eevee', color:'blue' }],
         description: 'A 3D solar system visualization created entirely in Blender using EEVEE\'s realtime render engine. The scene features the Sun with an emissive shader and volumetric glow, all eight planets with procedurally generated textures, accurate relative orbital distances (scaled for visual clarity), and animated orbits driven by keyframe curves. Saturn\'s rings use a custom shader with transparency and color ramps. Earth includes a basic atmosphere effect using a slightly larger transparent sphere with Fresnel-based opacity. The camera slowly orbits the entire system for a cinematic overview, with close-up passes on individual planets.',
-        techDetails: [
-          { label: 'Software', value: 'Blender 4.0' },
-          { label: 'Render Engine', value: 'EEVEE Next' },
-          { label: 'Objects', value: 'Sun + 8 planets + rings' },
-          { label: 'Animation', value: 'Orbital keyframes (300 frames)' },
-          { label: 'Shaders', value: 'Procedural noise + emission' },
-          { label: 'Output', value: '1920×1080 MP4 @ 30fps' }
-        ],
-        stack: ['Blender 4.0', 'EEVEE', 'Shader Nodes', 'Keyframe Animation', 'Procedural Textures', 'Compositor'],
+        stack: ['Blender 4.0','EEVEE','Shader Nodes','Keyframe Animation','Procedural Textures','Compositor'],
         stars: 128, forks: 23, views: '3.2k', date: 'Updated 2 days ago',
         gallery: [
-          'https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg',
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Saturn_from_Cassini_Orbiter_%282004-06-21%29.jpg/1280px-Saturn_from_Cassini_Orbiter_%282004-06-21%29.jpg',
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Saturn_Storm.jpg/1280px-Saturn_Storm.jpg',
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Saturn_Rings_from_Cassini.jpg/1280px-Saturn_Rings_from_Cassini.jpg'
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Saturn_during_Equinox.jpg/800px-Saturn_during_Equinox.jpg',
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Saturn_from_Cassini_Orbiter_%282004-06-21%29.jpg/640px-Saturn_from_Cassini_Orbiter_%282004-06-21%29.jpg',
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Saturn_Storm.jpg/640px-Saturn_Storm.jpg',
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Saturn_Rings_from_Cassini.jpg/640px-Saturn_Rings_from_Cassini.jpg'
         ],
-        github: 'https://github.com',
-        demo: 'https://youtu.be/9MgJXxoaoGc',
-        videoEmbed: 'https://www.youtube.com/embed/9MgJXxoaoGc'
+        github: 'https://github.com', demo: 'https://youtu.be/9MgJXxoaoGc',
+        videoEmbed: 'https://www.youtube.com/embed/9MgJXxoaoGc',
+        hasCalc: true
+      },
+      {
+        title: 'Week 1 Progress',
+        tags: [{ label:'after effects', color:'blue' }, { label:'rotoscoping', color:'muted' }],
+        description: 'First week rotoscoping exercise completed in After Effects. This project involves frame-by-frame mask isolation of a subject from live-action footage — carefully tracing around the subject\'s outline across every frame to cleanly separate them from the background. The exercise covers pen tool mask creation, mask feathering and expansion for natural edges, mask path keyframing with interpolation adjustments, and refining hard-to-track areas like hair and motion blur. The goal was to achieve a clean composite-ready matte that could later be used for background replacement or visual effects integration.',
+        stack: ['After Effects','Pen Tool','Mask Feathering','Roto Brush','Alpha Matte','Keyframe Interpolation'],
+        stars: 42, forks: 7, views: '480', date: 'Updated 1 week ago',
+        gallery: [
+          'https://i.ytimg.com/vi/vJxk8hLVPio/hqdefault.jpg',
+          'https://i.ytimg.com/vi/vJxk8hLVPio/1.jpg',
+          'https://i.ytimg.com/vi/vJxk8hLVPio/2.jpg',
+          'https://i.ytimg.com/vi/vJxk8hLVPio/3.jpg'
+        ],
+        github: 'https://github.com', demo: 'https://youtu.be/vJxk8hLVPio',
+        videoEmbed: 'https://www.youtube.com/embed/vJxk8hLVPio',
+        hasCalc: false
       }
     ];
 
-    function openModal(index) {
-      const p = projects[index];
-      const videoArea = document.getElementById('modal-video-area');
+    const videoPlayerConfig = {
+      provider: 'youtube',
+      embedHost: 'https://www.youtube.com/embed/',
+      supportedCodecs: ['H.264', 'VP9', 'AV1'],
+      defaults: {
+        rel: '0',
+        modestbranding: '1',
+        playsinline: '1',
+        iv_load_policy: '3'
+      }
+    };
 
-      if (p.videoEmbed) {
-        videoArea.innerHTML = `<iframe src="${p.videoEmbed}?rel=0" title="${p.title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>`;
+    const playerMonitor = {
+      counts: { success: 0, error: 0, fallback: 0 },
+      events: []
+    };
+
+    function monitorPlayerEvent(level, context, message, extra = {}) {
+      const entry = {
+        time: new Date().toISOString(),
+        level,
+        context,
+        message,
+        extra
+      };
+      playerMonitor.events.push(entry);
+      if (playerMonitor.events.length > 100) playerMonitor.events.shift();
+      if (level === 'error') {
+        playerMonitor.counts.error++;
+        console.error('[video-player]', message, { context, ...extra });
       } else {
-        videoArea.innerHTML = `
-          <div class="video-placeholder flex items-center justify-center" style="background: #0a0a0a;">
-            <img src="${p.gallery[0]}" alt="${p.title}" class="absolute top-0 left-0 w-full h-full object-cover" style="filter: saturate(0.6) contrast(1.1) brightness(0.7);">
-            <div class="relative z-10 flex flex-col items-center gap-3">
-              <div class="w-16 h-16 rounded-full flex items-center justify-center backdrop-blur-sm" style="background: rgba(0,255,0,0.15); border: 1px solid #00FF00; box-shadow: 0 0 30px rgba(0,255,0,0.2);">
-                <span class="iconify text-neonGreen" data-icon="mdi:play" data-width="32" style="margin-left: 3px;"></span>
-              </div>
-              <span class="text-textMuted text-xs">Video preview</span>
-            </div>
+        if (level === 'success') playerMonitor.counts.success++;
+        if (level === 'fallback') playerMonitor.counts.fallback++;
+        console.info('[video-player]', message, { context, ...extra });
+      }
+      try {
+        localStorage.setItem('videoPlayerMonitor', JSON.stringify({
+          counts: playerMonitor.counts,
+          lastEvent: entry
+        }));
+      } catch (_) {}
+      window.videoPlayerMonitor = playerMonitor;
+    }
+
+    function extractYouTubeVideoId(project) {
+      const candidates = [project.videoEmbed, project.demo].filter(Boolean);
+      for (const candidate of candidates) {
+        const embedMatch = candidate.match(/youtube\.com\/embed\/([A-Za-z0-9_-]{11})/);
+        if (embedMatch) return embedMatch[1];
+        const shortMatch = candidate.match(/youtu\.be\/([A-Za-z0-9_-]{11})/);
+        if (shortMatch) return shortMatch[1];
+        const watchMatch = candidate.match(/[?&]v=([A-Za-z0-9_-]{11})/);
+        if (watchMatch) return watchMatch[1];
+      }
+      return '';
+    }
+
+    function buildYouTubeEmbedUrl(videoId, opts = {}) {
+      if (!/^[A-Za-z0-9_-]{11}$/.test(videoId)) return '';
+      const params = new URLSearchParams({
+        ...videoPlayerConfig.defaults,
+        autoplay: opts.autoplay ? '1' : '0',
+        mute: opts.mute ? '1' : '0'
+      });
+      return `${videoPlayerConfig.embedHost}${videoId}?${params.toString()}`;
+    }
+
+    function renderPlayerError(container, project, reason) {
+      container.innerHTML = `
+        <div class="video-error">
+          <div>
+            <p><strong>Video unavailable</strong></p>
+            <p>${reason}</p>
           </div>
-        `;
+        </div>`;
+      monitorPlayerEvent('fallback', container.dataset.playerContext || 'unknown', 'Rendered player fallback', {
+        project: project.title,
+        reason
+      });
+    }
+
+    function initVideoPlayer(container, project, opts = {}) {
+      const context = container.dataset.playerContext || 'unknown';
+      const videoId = extractYouTubeVideoId(project);
+      if (!videoId) {
+        renderPlayerError(container, project, 'Missing or invalid YouTube video ID.');
+        monitorPlayerEvent('error', context, 'Invalid player configuration', {
+          project: project.title,
+          issue: 'video_id_missing'
+        });
+        return;
       }
 
+      const embedUrl = buildYouTubeEmbedUrl(videoId, opts);
+      if (!embedUrl) {
+        renderPlayerError(container, project, 'Unsupported embed configuration.');
+        monitorPlayerEvent('error', context, 'Failed to build embed URL', {
+          project: project.title,
+          issue: 'embed_url_invalid'
+        });
+        return;
+      }
+
+      container.innerHTML = '';
+      const iframe = document.createElement('iframe');
+      iframe.src = embedUrl;
+      iframe.title = project.title;
+      iframe.loading = opts.lazy ? 'lazy' : 'eager';
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      iframe.setAttribute('frameborder', '0');
+      container.appendChild(iframe);
+
+      let settled = false;
+      const timeout = setTimeout(() => {
+        if (settled) return;
+        settled = true;
+        renderPlayerError(container, project, 'Player timed out while loading.');
+        monitorPlayerEvent('error', context, 'Player load timeout', {
+          project: project.title,
+          embedUrl
+        });
+      }, 8000);
+
+      iframe.addEventListener('load', () => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timeout);
+        monitorPlayerEvent('success', context, 'Player loaded', {
+          project: project.title,
+          embedUrl,
+          codecs: videoPlayerConfig.supportedCodecs.join(', ')
+        });
+      });
+
+      iframe.addEventListener('error', () => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timeout);
+        renderPlayerError(container, project, 'Failed to initialize embedded player.');
+        monitorPlayerEvent('error', context, 'Iframe initialization error', {
+          project: project.title,
+          embedUrl
+        });
+      });
+    }
+
+    function initializeCardPlayers() {
+      document.querySelectorAll('.card-player').forEach((container) => {
+        const index = parseInt(container.dataset.projectIndex, 10);
+        const project = projects[index];
+        if (!project) {
+          monitorPlayerEvent('error', 'card', 'Card player missing project mapping', { index });
+          return;
+        }
+        initVideoPlayer(container, project, { autoplay: true, mute: true, lazy: true });
+      });
+    }
+
+    function renderModalVideo(project) {
+      const videoArea = document.getElementById('modal-video-area');
+      videoArea.dataset.playerContext = 'modal';
+      initVideoPlayer(videoArea, project, { autoplay: false, mute: false, lazy: false });
+    }
+
+    function openModal(index) {
+      const p = projects[index];
+      renderModalVideo(p);
       const galleryEl = document.getElementById('modal-gallery');
       galleryEl.innerHTML = p.gallery.map((img, i) => `
-        <img src="${img}" alt="Gallery ${i+1}" class="gallery-thumb w-24 h-14 object-cover rounded border ${i === 0 ? 'active border-neonGreen' : 'border-border'}" onclick="switchGallery(this, '${img}', ${index})">
+        <img src="${img}" alt="Gallery ${i+1}" class="gallery-thumb w-24 h-14 object-cover rounded border ${i===0?'active border-neonGreen':'border-border'}" onerror="this.style.display='none'" onclick="switchGallery(this,'${img}',${index})">
       `).join('');
-
-      const tagColors = {
-        green: 'bg-neonGreenDim text-neonGreen border-neonGreen',
-        blue: 'bg-neonBlueDim text-neonBlue border-neonBlue',
-        muted: 'text-textMuted border-border'
-      };
+      const tagColors = { green:'bg-neonGreenDim text-neonGreen border-neonGreen', blue:'bg-neonBlueDim text-neonBlue border-neonBlue', muted:'text-textMuted border-border' };
       document.getElementById('modal-tags').innerHTML = p.tags.map(t =>
-        `<span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider border ${tagColors[t.color]}" ${t.color === 'muted' ? "style='background:#161b22'" : ''}>${t.label}</span>`
+        `<span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider border ${tagColors[t.color]}" ${t.color==='muted'?"style='background:#161b22'":''}>${t.label}</span>`
       ).join('');
-
       document.getElementById('modal-title').textContent = p.title;
       document.getElementById('modal-description').textContent = p.description;
       document.getElementById('modal-stars').textContent = p.stars;
@@ -441,51 +817,42 @@
       document.getElementById('modal-date').textContent = p.date;
       document.getElementById('modal-github').href = p.github;
       document.getElementById('modal-demo').href = p.demo;
-
-      document.getElementById('modal-tech-details').innerHTML = p.techDetails.map(d => `
-        <div class="flex justify-between items-center px-3 py-2 rounded border border-border text-xs" style="background: #0a0a0a;">
-          <span class="text-textMuted">${d.label}</span>
-          <span class="text-textMain">${d.value}</span>
-        </div>
-      `).join('');
-
       document.getElementById('modal-stack').innerHTML = p.stack.map(s =>
         `<span class="px-3 py-1 rounded text-xs border border-border text-textMuted hover:border-neonBlue hover:text-neonBlue transition-all cursor-default">${s}</span>`
       ).join('');
-
+      const calcSection = document.getElementById('modal-calc-section');
+      const ageSection = document.getElementById('modal-age-section');
+      if (p.hasCalc) {
+        calcSection.style.display = '';
+        ageSection.style.display = '';
+        document.getElementById('planet-buttons').innerHTML = Object.entries(planetaryData).map(([key, data]) => `
+          <button class="planet-btn flex items-center gap-1.5 px-2.5 py-1.5 rounded border border-border text-[11px] text-textMuted" data-planet="${key}" onclick="selectPlanet('${key}')">
+            <span class="planet-dot" style="width:8px;height:8px;background:${data.color};box-shadow:0 0 6px ${data.color}66;"></span>${data.name}
+          </button>`).join('');
+        document.getElementById('age-birthdate').setAttribute('max', new Date().toISOString().split('T')[0]);
+        document.getElementById('age-earth-value').textContent = '—';
+        document.getElementById('age-results-area').innerHTML = `<div class="text-center py-6 text-textMuted text-xs"><span class="iconify inline-block mb-2" data-icon="mdi:rocket-launch-outline" data-width="24"></span><p>Enter your birthdate and hit calculate to see your age on every planet.</p></div>`;
+        selectPlanet('earth');
+      } else {
+        calcSection.style.display = 'none';
+        ageSection.style.display = 'none';
+      }
       document.getElementById('project-modal').classList.add('open');
       document.body.style.overflow = 'hidden';
     }
 
     function switchGallery(thumb, imgSrc, index) {
-      document.querySelectorAll('.gallery-thumb').forEach(t => {
-        t.classList.remove('active');
-        t.style.borderColor = '';
-      });
+      document.querySelectorAll('.gallery-thumb').forEach(t => { t.classList.remove('active'); t.style.borderColor = ''; });
       thumb.classList.add('active');
       thumb.style.borderColor = '#00FF00';
-
-      const videoArea = document.getElementById('modal-video-area');
       const p = projects[index];
-      if (p.videoEmbed) {
-        videoArea.innerHTML = `<iframe src="${p.videoEmbed}?rel=0" title="${p.title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>`;
-      } else {
-        videoArea.innerHTML = `
-          <img src="${imgSrc}" alt="Preview" class="absolute top-0 left-0 w-full h-full object-cover" style="filter: saturate(0.6) contrast(1.1) brightness(0.7);">
-          <div class="absolute inset-0 flex items-center justify-center">
-            <div class="w-14 h-14 rounded-full flex items-center justify-center backdrop-blur-sm" style="background: rgba(0,255,0,0.15); border: 1px solid #00FF00;">
-              <span class="iconify text-neonGreen" data-icon="mdi:play" data-width="28" style="margin-left:2px;"></span>
-            </div>
-          </div>
-        `;
-      }
+      renderModalVideo(p);
     }
 
     function closeModal() {
       document.getElementById('project-modal').classList.remove('open');
       document.body.style.overflow = '';
-      const va = document.getElementById('modal-video-area');
-      const iframe = va.querySelector('iframe');
+      const iframe = document.getElementById('modal-video-area').querySelector('iframe');
       if (iframe) iframe.src = '';
     }
 
@@ -493,9 +860,10 @@
     document.querySelectorAll('.repo-card').forEach(card => {
       card.addEventListener('click', () => openModal(parseInt(card.dataset.project)));
     });
+    initializeCardPlayers();
 
     // Typewriter
-    const phrases = ['IT Student', 'Multimedia & Authoring', 'Blender Enthusiast', 'After Effects Learner', 'Creative Coder'];
+    const phrases = ['IT Student','Multimedia & Authoring','Blender Enthusiast','After Effects Learner','Creative Coder'];
     let phraseIndex = 0, charIndex = 0, isDeleting = false;
     const typedEl = document.getElementById('typed-text');
     function typeWriter() {
@@ -509,11 +877,9 @@
     }
     typeWriter();
 
-    // Navbar
+    // Navbar scroll
     const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      navbar.style.borderBottomColor = window.scrollY > 50 ? '#333333' : 'transparent';
-    });
+    window.addEventListener('scroll', () => { navbar.style.borderBottomColor = window.scrollY > 50 ? '#333333' : 'transparent'; });
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
     window.addEventListener('scroll', () => {
@@ -531,9 +897,30 @@
       menuIcon.setAttribute('data-icon', mobileMenu.classList.contains('hidden') ? 'mdi:menu' : 'mdi:close');
     });
     mobileMenu.querySelectorAll('a').forEach(l => l.addEventListener('click', () => {
-      mobileMenu.classList.add('hidden');
-      menuIcon.setAttribute('data-icon', 'mdi:menu');
+      mobileMenu.classList.add('hidden'); menuIcon.setAttribute('data-icon', 'mdi:menu');
     }));
+
+    // Filter
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectItems = document.querySelectorAll('.project-item');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => { b.classList.remove('active'); b.style.borderColor = ''; b.style.color = ''; b.style.background = ''; });
+        btn.classList.add('active');
+        btn.style.borderColor = '#00FF00'; btn.style.color = '#00FF00'; btn.style.background = '#00FF0033';
+        const filter = btn.dataset.filter;
+        projectItems.forEach(item => {
+          const cats = item.dataset.category;
+          if (filter === 'all' || cats.includes(filter)) {
+            item.style.display = ''; item.style.opacity = '0'; item.style.transform = 'translateY(10px)';
+            setTimeout(() => { item.style.transition = 'all 0.3s ease'; item.style.opacity = '1'; item.style.transform = 'translateY(0)'; }, 50);
+          } else {
+            item.style.transition = 'all 0.2s ease'; item.style.opacity = '0'; item.style.transform = 'translateY(10px)';
+            setTimeout(() => { item.style.display = 'none'; }, 200);
+          }
+        });
+      });
+    });
 
     // Scroll reveal
     const fadeEls = document.querySelectorAll('.fade-in');
