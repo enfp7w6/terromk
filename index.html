@@ -24,20 +24,8 @@
             sans: ['Space Grotesk', 'sans-serif'],
             mono: ['JetBrains Mono', 'monospace'],
           },
-          animation: {
-            'blink': 'blink 1s step-end infinite',
-            'float': 'float 6s ease-in-out infinite',
-            'scanline': 'scanline 8s linear infinite',
-            'modal-in': 'modal-in 0.4s cubic-bezier(0.16,1,0.3,1) forwards',
-            'result-in': 'result-in 0.3s ease forwards',
-          },
-          keyframes: {
-            blink: { '0%,100%': { opacity: '1' }, '50%': { opacity: '0' } },
-            float: { '0%,100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-10px)' } },
-            scanline: { '0%': { transform: 'translateY(-100%)' }, '100%': { transform: 'translateY(100vh)' } },
-            'modal-in': { from: { opacity: '0', transform: 'scale(0.95) translateY(20px)' }, to: { opacity: '1', transform: 'scale(1) translateY(0)' } },
-            'result-in': { from: { opacity: '0', transform: 'translateY(6px)' }, to: { opacity: '1', transform: 'translateY(0)' } },
-          },
+          animation: {},
+          keyframes: {},
         }
       }
     }
@@ -49,52 +37,26 @@
     ::-webkit-scrollbar-thumb { background: #333333; border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: #00FF00; }
     body { background: #000000; font-family: 'JetBrains Mono', monospace; }
-    .glow-green { text-shadow: 0 0 10px #00FF0066, 0 0 40px #00FF0022; }
-    .glow-blue { text-shadow: 0 0 10px #00D7FF66, 0 0 40px #00D7FF22; }
-    .scanline-overlay::before {
-      content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,0,0.015) 2px, rgba(0,255,0,0.015) 4px);
-      pointer-events: none; z-index: 60;
-    }
-    .grid-bg {
-      background-image: linear-gradient(rgba(0,255,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,0,0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
-    }
-    .noise-bg {
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-    }
     .syntax-keyword { color: #ff7b72; }
     .syntax-string { color: #a5d6ff; }
     .syntax-variable { color: #ffa657; }
     .syntax-number { color: #00D7FF; }
     .syntax-tag { color: #00FF00; }
-    .repo-card { transition: all 0.3s ease; cursor: pointer; }
-    .repo-card:hover {
-      border-color: #00FF0066;
-      box-shadow: 0 0 20px #00FF0011, 0 4px 20px rgba(0,0,0,0.4);
-      transform: translateY(-2px);
-    }
-    .nav-link { position: relative; transition: color 0.2s ease; }
-    .nav-link::after {
-      content: ''; position: absolute; bottom: -4px; left: 0;
-      width: 0; height: 1px; background: #00FF00;
-      box-shadow: 0 0 5px #00FF0066; transition: width 0.3s ease;
-    }
-    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
-    .nav-link:hover, .nav-link.active { color: #00FF00; }
-    .social-icon { transition: all 0.2s ease; }
-    .social-icon:hover { color: #00FF00; text-shadow: 0 0 10px #00FF0066; transform: translateY(-2px); }
-    .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.6s cubic-bezier(0.16,1,0.3,1); }
-    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .repo-card { cursor: pointer; }
+    .nav-link { position: relative; }
+    .nav-link.active { color: #00FF00; }
+    .social-icon { }
+    .fade-in { }
+    .fade-in.visible { }
     .terminal-header-dots span { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
     .modal-overlay {
       position: fixed; inset: 0; z-index: 100;
-      background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+      background: rgba(0,0,0,0.85);
       display: none; align-items: flex-start; justify-content: center;
       padding: 2rem 1rem; overflow-y: auto;
     }
     .modal-overlay.open { display: flex; }
-    .modal-content { animation: modal-in 0.4s cubic-bezier(0.16,1,0.3,1) forwards; }
+    .modal-content { }
     .modal-video-wrapper {
       position: relative; padding-top: 56.25%; background: #0a0a0a; overflow: hidden;
     }
@@ -103,31 +65,22 @@
     .modal-video-wrapper .video-placeholder {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     }
-    .gallery-thumb { transition: all 0.2s ease; cursor: pointer; opacity: 0.7; }
-    .gallery-thumb:hover, .gallery-thumb.active { opacity: 1; border-color: #00FF00; box-shadow: 0 0 10px #00FF0033; }
-    .planet-btn { transition: all 0.2s ease; position: relative; overflow: hidden; }
-    .planet-btn::before {
-      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
-      background: #00FF00; transform: scaleX(0); transition: transform 0.2s ease;
-      box-shadow: 0 0 8px #00FF0066;
-    }
-    .planet-btn:hover::before, .planet-btn.active::before { transform: scaleX(1); }
-    .planet-btn:hover, .planet-btn.active { color: #00FF00; border-color: #00FF0066; background: #00FF0011; }
-    .data-row { transition: all 0.2s ease; }
+    .gallery-thumb { cursor: pointer; opacity: 0.7; }
+    .gallery-thumb.active { opacity: 1; border-color: #00FF00; }
+    .planet-btn { position: relative; overflow: hidden; }
+    .planet-btn.active { color: #00FF00; border-color: #00FF0066; background: #00FF0011; }
+    .data-row { }
     .data-row:hover { background: #00FF0008; }
     .planet-dot { display: inline-block; border-radius: 50%; flex-shrink: 0; }
     .age-input {
       background: #0a0a0a; border: 1px solid #333333; color: #e6e6e6;
       font-family: 'JetBrains Mono', monospace; font-size: 12px;
-      padding: 6px 10px; border-radius: 6px; outline: none; transition: border-color 0.2s ease;
+      padding: 6px 10px; border-radius: 6px; outline: none;
     }
-    .age-input:focus { border-color: #00FF00; box-shadow: 0 0 8px #00FF0022; }
     .age-input::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
-    .calc-btn { transition: all 0.2s ease; }
-    .calc-btn:hover { box-shadow: 0 0 16px #00FF0044; transform: translateY(-1px); }
-    .calc-btn:active { transform: translateY(0); }
-    .age-result-card { animation: result-in 0.3s ease forwards; }
-    .filter-btn { transition: all 0.2s ease; }
+    .calc-btn { }
+    .age-result-card { }
+    .filter-btn { }
     .thumb-wrap {
       position: relative;
       background: #111;
@@ -135,7 +88,6 @@
     }
     .thumb-wrap img {
       width: 100%; height: 100%; object-fit: cover;
-      transition: transform 0.5s ease;
     }
     .thumb-wrap iframe {
       width: 100%; height: 100%; border: 0;
@@ -159,111 +111,55 @@
     }
   </style>
 </head>
-<body class="text-textMain font-mono antialiased relative scanline-overlay noise-bg">
-
-  <div class="fixed inset-0 pointer-events-none z-50 overflow-hidden opacity-30">
-    <div class="w-full h-px bg-neonGreen animate-scanline" style="box-shadow: 0 0 10px #00FF0044;"></div>
-  </div>
+<body class="text-textMain font-mono antialiased relative">
 
   <!-- Navigation -->
-  <nav id="navbar" class="fixed top-0 left-0 right-0 z-40 transition-all duration-300" style="background: rgba(0,0,0,0.8); backdrop-filter: blur(12px); border-bottom: 1px solid transparent;">
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-40" style="background: rgba(0,0,0,0.8); border-bottom: 1px solid transparent;">
     <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
       <a href="#hero" class="flex items-center gap-2 group">
-        <span class="text-neonGreen font-bold text-lg glow-green">$</span>
-        <span class="font-sans font-semibold text-textMain tracking-tight group-hover:text-neonGreen transition-colors">francine.dev</span>
+        <span class="text-neonGreen font-bold text-lg">$</span>
+        <span class="font-sans font-semibold text-textMain tracking-tight">francine.dev</span>
       </a>
       <div class="hidden md:flex items-center gap-8">
         <a href="#hero" class="nav-link active text-sm text-textMuted">~/home</a>
         <a href="#projects" class="nav-link text-sm text-textMuted">~/projects</a>
-        <a href="https://github.com" target="_blank" class="social-icon text-textMuted">
-          <span class="iconify" data-icon="mdi:github" data-width="20"></span>
-        </a>
       </div>
-      <button id="mobile-toggle" class="md:hidden text-textMuted hover:text-neonGreen transition-colors">
+      <button id="mobile-toggle" class="md:hidden text-textMuted">
         <span class="iconify" data-icon="mdi:menu" data-width="24" id="menu-icon"></span>
       </button>
     </div>
-    <div id="mobile-menu" class="md:hidden hidden border-t border-border" style="background: rgba(17,17,17,0.95); backdrop-filter: blur(12px);">
+    <div id="mobile-menu" class="md:hidden hidden border-t border-border" style="background: rgba(17,17,17,0.95);">
       <div class="px-6 py-4 flex flex-col gap-4">
-        <a href="#hero" class="text-sm text-textMuted hover:text-neonGreen transition-colors">~/home</a>
-        <a href="#projects" class="text-sm text-textMuted hover:text-neonGreen transition-colors">~/projects</a>
+        <a href="#hero" class="text-sm text-textMuted">~/home</a>
+        <a href="#projects" class="text-sm text-textMuted">~/projects</a>
       </div>
     </div>
   </nav>
 
   <!-- ==================== HERO ==================== -->
-  <section id="hero" class="min-h-screen flex items-center relative grid-bg">
-    <div class="absolute top-1/4 -left-32 w-96 h-96 rounded-full opacity-10 blur-3xl pointer-events-none" style="background: #00FF00;"></div>
-    <div class="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full opacity-10 blur-3xl pointer-events-none" style="background: #00D7FF;"></div>
+  <section id="hero" class="min-h-screen flex items-center relative">
     <div class="max-w-6xl mx-auto px-6 pt-20 pb-16 w-full">
-      <div class="grid md:grid-cols-5 gap-12 items-center">
-        <div class="md:col-span-3 space-y-8">
-          <div class="flex items-center gap-2 text-sm text-textMuted">
-            <span class="text-neonGreen">➜</span>
-            <span>~/portfolio</span>
-            <span class="text-neonBlue">git:(main)</span>
-          </div>
-          <div class="space-y-2">
-            <p class="text-textMuted text-sm">// hello_world.sh</p>
-            <h1 class="hero-title font-sans font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
-              <span class="text-textMain">Hi, I'm </span>
-              <span class="text-neonGreen glow-green">Francine</span>
-            </h1>
-            <div class="flex items-center gap-2 text-xl md:text-2xl text-textMuted">
-              <span>&gt;</span>
-              <span id="typed-text" class="text-neonBlue glow-blue"></span>
-              <span class="animate-blink text-neonBlue">▊</span>
-            </div>
-          </div>
-          <p class="text-textMuted text-sm leading-relaxed max-w-lg">
-            Personal portfolio of an IT student for multimedia and authoring.
-          </p>
-          <div class="flex items-center gap-4 pt-2 flex-wrap">
-            <a href="https://github.com" target="_blank" class="social-icon flex items-center gap-2 px-4 py-2 rounded border border-border text-textMuted text-sm hover:border-neonGreen">
-              <span class="iconify" data-icon="mdi:github" data-width="18"></span>
-              <span class="hidden sm:inline">GitHub</span>
-            </a>
-            <a href="https://linkedin.com" target="_blank" class="social-icon flex items-center gap-2 px-4 py-2 rounded border border-border text-textMuted text-sm hover:border-neonBlue">
-              <span class="iconify" data-icon="mdi:linkedin" data-width="18"></span>
-              <span class="hidden sm:inline">LinkedIn</span>
-            </a>
-            <a href="https://youtube.com" target="_blank" class="social-icon flex items-center gap-2 px-4 py-2 rounded border border-border text-textMuted text-sm hover:border-neonGreen">
-              <span class="iconify" data-icon="mdi:youtube" data-width="18"></span>
-              <span class="hidden sm:inline">YouTube</span>
-            </a>
-            <a href="https://artstation.com" target="_blank" class="social-icon flex items-center gap-2 px-4 py-2 rounded border border-border text-textMuted text-sm hover:border-neonBlue">
-              <span class="iconify" data-icon="simple-icons:artstation" data-width="18"></span>
-              <span class="hidden sm:inline">ArtStation</span>
-            </a>
+      <div class="max-w-3xl space-y-8">
+        <div class="flex items-center gap-2 text-sm text-textMuted">
+          <span class="text-neonGreen">➜</span>
+          <span>~/portfolio</span>
+          <span class="text-neonBlue">git:(main)</span>
+        </div>
+        <div class="space-y-2">
+          <p class="text-textMuted text-sm">// hello_world.sh</p>
+          <h1 class="hero-title font-sans font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
+            <span class="text-textMain">Hi, I'm </span>
+            <span class="text-neonGreen">Francine</span>
+          </h1>
+          <div class="flex items-center gap-2 text-xl md:text-2xl text-textMuted">
+            <span>&gt;</span>
+            <span id="typed-text" class="text-neonBlue"></span>
+            <span class="text-neonBlue">▊</span>
           </div>
         </div>
-        <div class="md:col-span-2 flex flex-col items-center gap-6">
-          <div class="relative animate-float">
-            <div class="w-48 h-48 md:w-56 md:h-56 rounded-2xl overflow-hidden border-2 border-border" style="box-shadow: 0 0 30px #00FF0015;">
-              <img src="https://picsum.photos/seed/francine-avatar/400/400.jpg" alt="Francine" class="w-full h-full object-cover" style="filter: saturate(0.8) contrast(1.1);">
-            </div>
-            <div class="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-neonGreen"></div>
-            <div class="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-neonBlue"></div>
-            <div class="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-neonBlue"></div>
-            <div class="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-neonGreen"></div>
-          </div>
-          <div class="w-full rounded-lg overflow-hidden border border-border" style="background: #0d1117;">
-            <div class="terminal-header-dots flex items-center gap-2 px-4 py-2.5 border-b border-border" style="background: #161b22;">
-              <span style="background: #ff5f57;"></span>
-              <span style="background: #febc2e;"></span>
-              <span style="background: #28c840;"></span>
-              <span class="ml-3 text-xs text-textMuted">profile.json</span>
-            </div>
-            <div class="p-4 text-xs leading-6">
-              <span class="syntax-tag">{</span><br>
-              &nbsp;&nbsp;<span class="syntax-variable">"name"</span>: <span class="syntax-string">"Francine"</span>,<br>
-              &nbsp;&nbsp;<span class="syntax-variable">"role"</span>: <span class="syntax-string">"Student"</span>,<br>
-              &nbsp;&nbsp;<span class="syntax-variable">"tools"</span>: [<span class="syntax-string">"Blender"</span>, <span class="syntax-string">"AE"</span>],<br>
-              &nbsp;&nbsp;<span class="syntax-variable">"coffee"</span>: <span class="syntax-number">true</span><br>
-              <span class="syntax-tag">}</span>
-            </div>
-          </div>
-        </div>
+        <p class="text-textMuted text-sm leading-relaxed max-w-lg">
+          Personal portfolio of an IT student for multimedia and authoring.
+        </p>
       </div>
     </div>
   </section>
@@ -271,91 +167,78 @@
   <!-- ==================== PROJECTS ==================== -->
   <section id="projects" class="relative py-24 md:py-32">
     <div class="max-w-5xl mx-auto px-6">
-      <div class="fade-in mb-16">
+      <div class="mb-16">
         <div class="flex items-center gap-3 mb-4">
           <span class="text-neonGreen text-sm font-mono">$</span>
           <span class="text-textMuted text-sm">ls -la ~/projects</span>
         </div>
         <h2 class="font-sans font-bold text-3xl md:text-4xl tracking-tight text-textMain">Projects</h2>
         <p class="text-textMuted text-sm mt-3">Click any project to view the video and technical breakdown.</p>
-        <div class="w-16 h-px bg-neonGreen mt-6" style="box-shadow: 0 0 8px #00FF0066;"></div>
+        <div class="w-16 h-px bg-neonGreen mt-6"></div>
       </div>
 
       <!-- Filter -->
-      <div class="fade-in flex flex-wrap gap-3 mb-10">
-        <button class="filter-btn active px-4 py-1.5 rounded-full text-xs border border-neonGreen text-neonGreen bg-neonGreenDim transition-all" data-filter="all">all</button>
-        <button class="filter-btn px-4 py-1.5 rounded-full text-xs border border-border text-textMuted hover:border-neonBlue hover:text-neonBlue transition-all" data-filter="blender">blender</button>
-        <button class="filter-btn px-4 py-1.5 rounded-full text-xs border border-border text-textMuted hover:border-neonBlue hover:text-neonBlue transition-all" data-filter="aftereffects">after effects</button>
+      <div class="flex flex-wrap gap-3 mb-10">
+        <button class="filter-btn active px-4 py-1.5 rounded-full text-xs border border-neonGreen text-neonGreen" data-filter="all">all</button>
+        <button class="filter-btn px-4 py-1.5 rounded-full text-xs border border-border text-textMuted" data-filter="blender">blender</button>
+        <button class="filter-btn px-4 py-1.5 rounded-full text-xs border border-border text-textMuted" data-filter="aftereffects">after effects</button>
       </div>
 
       <!-- Cards Grid -->
-      <div class="grid md:grid-cols-2 gap-6" id="projects-grid">
+        <div class="grid md:grid-cols-2 gap-6" id="projects-grid">
 
-        <!-- Card 1: Solar System -->
-        <div class="fade-in repo-card project-item border border-border rounded-xl overflow-hidden" data-category="blender" data-project="0" style="background: #0d1117;">
-          <div class="thumb-wrap relative h-52 group">
-            <div class="card-player absolute inset-0" data-project-index="0" data-player-context="card"></div>
-            <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent pointer-events-none"></div>
-            <div class="absolute top-3 left-3 flex gap-2 pointer-events-none">
-              <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonGreenDim text-neonGreen border border-neonGreen">blender</span>
-              <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">eevee</span>
+          <!-- Card 1: Solar System -->
+          <div class="repo-card project-item border border-border rounded-xl overflow-hidden" data-category="blender" data-project="0" style="background: #0d1117;">
+            <div class="thumb-wrap relative h-52 group">
+              <div class="card-player absolute inset-0" data-project-index="0" data-player-context="card"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-3 left-3 flex gap-2 pointer-events-none">
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonGreenDim text-neonGreen border border-neonGreen">blender</span>
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">eevee</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between gap-4 mb-2">
+                <h3 class="font-sans font-semibold text-lg text-textMain">solar-system</h3>
+                <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18"></span>
+              </div>
+              <p class="text-textMuted text-xs leading-relaxed mb-4">An expansive and multifaceted exploration of celestial mechanics and the intricate dance of planetary bodies within a vast, simulated environment. This project delves into the complexities of spatial representation and the digital recreation of astronomical phenomena, utilizing advanced rendering techniques to evoke a sense of scale and cosmic wonder through a series of interconnected visual systems and data-driven simulations of a solar system.</p>
+              <div class="flex items-center gap-4 text-xs text-textMuted">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonGreen"></span>Blender</span>
+              </div>
             </div>
           </div>
-          <div class="p-6">
-            <div class="flex items-start justify-between gap-4 mb-2">
-              <h3 class="font-sans font-semibold text-lg text-textMain">solar-system</h3>
-              <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18"></span>
+
+          <!-- Card 2: Week 1 Progress (Rotoscoping) -->
+          <div class="repo-card project-item border border-border rounded-xl overflow-hidden" data-category="aftereffects" data-project="1" style="background: #0d1117;">
+            <div class="thumb-wrap relative h-52 group">
+              <div class="card-player absolute inset-0" data-project-index="1" data-player-context="card"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-3 left-3 flex gap-2 pointer-events-none">
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">after effects</span>
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider text-textMuted border border-border" style="background: #161b22;">rotoscoping</span>
+              </div>
             </div>
-            <p class="text-textMuted text-xs leading-relaxed mb-4">3D solar system in Blender with orbital mechanics, procedural textures, volumetric lighting, and a built-in planetary data & age calculator.</p>
-            <div class="flex items-center gap-4 text-xs text-textMuted">
-              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonGreen"></span>Blender</span>
-              <span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:star-outline" data-width="14"></span>128</span>
-              <span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:source-fork" data-width="14"></span>23</span>
+            <div class="p-6">
+              <div class="flex items-start justify-between gap-4 mb-2">
+                <h3 class="font-sans font-semibold text-lg text-textMain">week-1-progress</h3>
+                <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18"></span>
+              </div>
+              <p class="text-textMuted text-xs leading-relaxed mb-4">A meticulous and time-intensive examination of motion isolation and the extraction of specific visual elements from within a dynamic cinematic context. This endeavor focuses on the granular manipulation of frame-level data to achieve a seamless separation of subjects through after effects rotoscoping.</p>
+              <div class="flex items-center gap-4 text-xs text-textMuted">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonBlue"></span>After Effects</span>
+              </div>
             </div>
           </div>
+
         </div>
-
-        <!-- Card 2: Week 1 Progress (Rotoscoping) -->
-        <div class="fade-in repo-card project-item border border-border rounded-xl overflow-hidden" data-category="aftereffects" data-project="1" style="background: #0d1117;">
-          <div class="thumb-wrap relative h-52 group">
-            <div class="card-player absolute inset-0" data-project-index="1" data-player-context="card"></div>
-            <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent pointer-events-none"></div>
-            <div class="absolute top-3 left-3 flex gap-2 pointer-events-none">
-              <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">after effects</span>
-              <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider text-textMuted border border-border" style="background: #161b22;">rotoscoping</span>
-            </div>
-          </div>
-          <div class="p-6">
-            <div class="flex items-start justify-between gap-4 mb-2">
-              <h3 class="font-sans font-semibold text-lg text-textMain">week-1-progress</h3>
-              <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18"></span>
-            </div>
-            <p class="text-textMuted text-xs leading-relaxed mb-4">First week rotoscoping exercise in After Effects — frame-by-frame mask isolation of a subject from live-action footage.</p>
-            <div class="flex items-center gap-4 text-xs text-textMuted">
-              <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonBlue"></span>After Effects</span>
-              <span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:star-outline" data-width="14"></span>42</span>
-              <span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:source-fork" data-width="14"></span>7</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="fade-in mt-12 flex justify-center">
-        <a href="https://github.com" target="_blank" class="flex items-center gap-2 px-6 py-3 rounded-lg border border-border text-textMuted text-sm hover:border-neonGreen hover:text-neonGreen transition-all group">
-          <span class="iconify" data-icon="mdi:github" data-width="20"></span>
-          <span>View all repositories</span>
-          <span class="iconify group-hover:translate-x-1 transition-transform" data-icon="mdi:arrow-right" data-width="16"></span>
-        </a>
-      </div>
-    </div>
   </section>
 
   <!-- ==================== PROJECT DETAIL MODAL ==================== -->
   <div id="project-modal" class="modal-overlay" onclick="if(event.target===this)closeModal()">
     <div class="modal-content w-full max-w-5xl my-8">
       <div class="flex justify-end mb-3">
-        <button onclick="closeModal()" class="w-10 h-10 rounded-lg border border-border flex items-center justify-center text-textMuted hover:text-neonGreen hover:border-neonGreen transition-all" style="background: rgba(13,17,23,0.9); backdrop-filter: blur(8px);">
+        <button onclick="closeModal()" class="w-10 h-10 rounded-lg border border-border flex items-center justify-center text-textMuted" style="background: rgba(13,17,23,0.9);">
           <span class="iconify" data-icon="mdi:close" data-width="20"></span>
         </button>
       </div>
@@ -369,14 +252,6 @@
             <div>
               <div class="flex flex-wrap gap-2 mb-2" id="modal-tags"></div>
               <h2 class="font-sans font-bold text-2xl md:text-3xl text-textMain" id="modal-title"></h2>
-            </div>
-            <div class="flex items-center gap-2 flex-shrink-0">
-              <a id="modal-github" href="#" target="_blank" class="flex items-center gap-1.5 px-3 py-1.5 rounded border border-border text-textMuted text-xs hover:border-neonGreen hover:text-neonGreen transition-all">
-                <span class="iconify" data-icon="mdi:github" data-width="16"></span>Repo
-              </a>
-              <a id="modal-demo" href="#" target="_blank" class="flex items-center gap-1.5 px-3 py-1.5 rounded border border-neonBlue text-neonBlue text-xs hover:bg-neonBlueDim transition-all">
-                <span class="iconify" data-icon="mdi:play-circle-outline" data-width="16"></span>Live Demo
-              </a>
             </div>
           </div>
           <div>
@@ -437,13 +312,13 @@
                   </label>
                   <input type="date" id="age-birthdate" class="age-input w-full" max="">
                 </div>
-                <button onclick="calculateAllAges()" class="calc-btn px-5 py-2 rounded-lg bg-neonGreen text-pureBlack font-sans font-semibold text-xs flex items-center justify-center gap-2 flex-shrink-0" style="box-shadow: 0 0 12px #00FF0033;">
+                <button onclick="calculateAllAges()" class="calc-btn px-5 py-2 rounded-lg bg-neonGreen text-pureBlack font-sans font-semibold text-xs flex items-center justify-center gap-2 flex-shrink-0">
                   <span class="iconify" data-icon="mdi:calculator" data-width="16"></span>Calculate Age
                 </button>
               </div>
               <div class="px-4 py-3 border-b border-border flex items-center justify-between" style="background: #0d1117;">
                 <div class="flex items-center gap-2">
-                  <span class="planet-dot" style="width:12px;height:12px;background:#4d9de0;box-shadow:0 0 6px #4d9de066;"></span>
+                  <span class="planet-dot" style="width:12px;height:12px;background:#4d9de0;"></span>
                   <span class="text-xs text-textMuted">Your age on Earth</span>
                 </div>
                 <span class="text-sm text-textMain font-mono" id="age-earth-value">—</span>
@@ -464,9 +339,6 @@
             <div class="flex flex-wrap gap-2" id="modal-stack"></div>
           </div>
           <div class="flex items-center gap-6 pt-2 border-t border-border text-xs text-textMuted">
-            <span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:star-outline" data-width="14"></span><span id="modal-stars"></span></span>
-            <span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:source-fork" data-width="14"></span><span id="modal-forks"></span></span>
-            <span class="flex items-center gap-1"><span class="iconify" data-icon="mdi:eye-outline" data-width="14"></span><span id="modal-views"></span></span>
             <span class="ml-auto" id="modal-date"></span>
           </div>
         </div>
@@ -482,12 +354,6 @@
           <span class="text-neonGreen font-bold">$</span>
           <span class="font-sans font-semibold text-textMain text-sm">francine.dev</span>
           <span class="text-textMuted text-xs ml-2">© 2025</span>
-        </div>
-        <div class="flex items-center gap-6 text-textMuted">
-          <a href="https://github.com" target="_blank" class="social-icon"><span class="iconify" data-icon="mdi:github" data-width="18"></span></a>
-          <a href="https://linkedin.com" target="_blank" class="social-icon"><span class="iconify" data-icon="mdi:linkedin" data-width="18"></span></a>
-          <a href="https://youtube.com" target="_blank" class="social-icon"><span class="iconify" data-icon="mdi:youtube" data-width="18"></span></a>
-          <a href="https://twitter.com" target="_blank" class="social-icon"><span class="iconify" data-icon="mdi:twitter" data-width="18"></span></a>
         </div>
         <div class="text-textMuted text-xs flex items-center gap-1">
           Built with <span class="iconify text-neonGreen" data-icon="mdi:heart" data-width="12"></span> &amp; <span class="text-neonBlue">Blender</span>
@@ -521,7 +387,6 @@
       document.querySelectorAll('.planet-btn').forEach(b => b.classList.remove('active'));
       document.querySelector(`.planet-btn[data-planet="${key}"]`).classList.add('active');
       document.getElementById('calc-planet-dot').style.background = p.color;
-      document.getElementById('calc-planet-dot').style.boxShadow = `0 0 12px ${p.color}66`;
       document.getElementById('calc-planet-name').textContent = p.name;
       document.getElementById('calc-planet-type').textContent = p.type;
       document.getElementById('calc-planet-order').textContent = p.order;
@@ -572,8 +437,8 @@
         const py = diffDays / p.orbitalPeriodDays;
         const wy = Math.floor(py), rd = Math.floor(diffDays - (wy * p.orbitalPeriodDays));
         const sel = key === currentPlanet;
-        html += `<div class="age-result-card flex items-center gap-3 px-3 py-3 rounded-lg border ${sel?'border-neonGreen':'border-border'}" style="background:${sel?'#00FF000a':'#0d1117'};animation-delay:${i*60}ms;">
-          <span class="planet-dot flex-shrink-0" style="width:14px;height:14px;background:${p.color};box-shadow:0 0 8px ${p.color}55;"></span>
+        html += `<div class="age-result-card flex items-center gap-3 px-3 py-3 rounded-lg border ${sel?'border-neonGreen':'border-border'}" style="background:${sel?'#00FF000a':'#0d1117'};">
+          <span class="planet-dot flex-shrink-0" style="width:14px;height:14px;background:${p.color};"></span>
           <div class="min-w-0 flex-1">
             <div class="text-[10px] uppercase tracking-wider text-textMuted">${p.name}</div>
             <div class="text-xs text-textMain"><span class="${sel?'text-neonGreen font-semibold':''}">${wy.toLocaleString()}</span><span class="text-textMuted"> yr</span> <span class="${sel?'text-neonBlue font-semibold':''}">${rd.toLocaleString()}</span><span class="text-textMuted"> d</span></div>
@@ -601,7 +466,7 @@
       {
         title: 'Solar System',
         tags: [{ label:'blender', color:'green' }, { label:'eevee', color:'blue' }],
-        description: 'A 3D solar system visualization created entirely in Blender using EEVEE\'s realtime render engine. The scene features the Sun with an emissive shader and volumetric glow, all eight planets with procedurally generated textures, accurate relative orbital distances (scaled for visual clarity), and animated orbits driven by keyframe curves. Saturn\'s rings use a custom shader with transparency and color ramps. Earth includes a basic atmosphere effect using a slightly larger transparent sphere with Fresnel-based opacity. The camera slowly orbits the entire system for a cinematic overview, with close-up passes on individual planets.',
+        description: 'An expansive and multifaceted exploration of celestial mechanics and the intricate dance of planetary bodies within a vast, simulated environment. This project delves into the complexities of spatial representation and the digital recreation of astronomical phenomena, utilizing advanced rendering techniques to evoke a sense of scale and cosmic wonder through a series of interconnected visual systems and data-driven simulations. By focusing on the underlying principles of orbital motion and the atmospheric qualities of various spheres, this solar system project aims to provide a comprehensive, albeit abstract, perspective on the fundamental laws that govern our celestial neighborhood, inviting viewers to contemplate the vastness of space through a meticulously constructed digital lens.',
         stack: ['Blender 4.0','EEVEE','Shader Nodes','Keyframe Animation','Procedural Textures','Compositor'],
         stars: 128, forks: 23, views: '3.2k', date: 'Updated 2 days ago',
         gallery: [
@@ -617,7 +482,7 @@
       {
         title: 'Week 1 Progress',
         tags: [{ label:'after effects', color:'blue' }, { label:'rotoscoping', color:'muted' }],
-        description: 'First week rotoscoping exercise completed in After Effects. This project involves frame-by-frame mask isolation of a subject from live-action footage — carefully tracing around the subject\'s outline across every frame to cleanly separate them from the background. The exercise covers pen tool mask creation, mask feathering and expansion for natural edges, mask path keyframing with interpolation adjustments, and refining hard-to-track areas like hair and motion blur. The goal was to achieve a clean composite-ready matte that could later be used for background replacement or visual effects integration.',
+        description: 'A meticulous and time-intensive examination of motion isolation and the extraction of specific visual elements from within a dynamic cinematic context. This endeavor focuses on the granular manipulation of frame-level data to achieve a seamless separation of subjects from their original environments, employing precise digital masking and temporal tracking to facilitate subsequent integration and visual enhancement. By exploring the nuances of edge refinement and motion blur compensation, this after effects rotoscoping project serves as a foundational study in the art of visual deconstruction, providing the necessary clarity and control for complex compositing tasks that require the highest degree of fidelity and technical precision across every single frame of the sequence.',
         stack: ['After Effects','Pen Tool','Mask Feathering','Roto Brush','Alpha Matte','Keyframe Interpolation'],
         stars: 42, forks: 7, views: '480', date: 'Updated 1 week ago',
         gallery: [
@@ -811,14 +676,9 @@
       ).join('');
       document.getElementById('modal-title').textContent = p.title;
       document.getElementById('modal-description').textContent = p.description;
-      document.getElementById('modal-stars').textContent = p.stars;
-      document.getElementById('modal-forks').textContent = p.forks;
-      document.getElementById('modal-views').textContent = p.views;
       document.getElementById('modal-date').textContent = p.date;
-      document.getElementById('modal-github').href = p.github;
-      document.getElementById('modal-demo').href = p.demo;
       document.getElementById('modal-stack').innerHTML = p.stack.map(s =>
-        `<span class="px-3 py-1 rounded text-xs border border-border text-textMuted hover:border-neonBlue hover:text-neonBlue transition-all cursor-default">${s}</span>`
+        `<span class="px-3 py-1 rounded text-xs border border-border text-textMuted cursor-default">${s}</span>`
       ).join('');
       const calcSection = document.getElementById('modal-calc-section');
       const ageSection = document.getElementById('modal-age-section');
@@ -862,20 +722,8 @@
     });
     initializeCardPlayers();
 
-    // Typewriter
-    const phrases = ['IT Student','Multimedia & Authoring','Blender Enthusiast','After Effects Learner','Creative Coder'];
-    let phraseIndex = 0, charIndex = 0, isDeleting = false;
-    const typedEl = document.getElementById('typed-text');
-    function typeWriter() {
-      const current = phrases[phraseIndex];
-      if (isDeleting) { typedEl.textContent = current.substring(0, charIndex - 1); charIndex--; }
-      else { typedEl.textContent = current.substring(0, charIndex + 1); charIndex++; }
-      let delay = isDeleting ? 30 : 60;
-      if (!isDeleting && charIndex === current.length) { delay = 2000; isDeleting = true; }
-      else if (isDeleting && charIndex === 0) { isDeleting = false; phraseIndex = (phraseIndex + 1) % phrases.length; delay = 500; }
-      setTimeout(typeWriter, delay);
-    }
-    typeWriter();
+    // Static text
+    document.getElementById('typed-text').textContent = 'IT Student';
 
     // Navbar scroll
     const navbar = document.getElementById('navbar');
@@ -912,22 +760,13 @@
         projectItems.forEach(item => {
           const cats = item.dataset.category;
           if (filter === 'all' || cats.includes(filter)) {
-            item.style.display = ''; item.style.opacity = '0'; item.style.transform = 'translateY(10px)';
-            setTimeout(() => { item.style.transition = 'all 0.3s ease'; item.style.opacity = '1'; item.style.transform = 'translateY(0)'; }, 50);
+            item.style.display = '';
           } else {
-            item.style.transition = 'all 0.2s ease'; item.style.opacity = '0'; item.style.transform = 'translateY(10px)';
-            setTimeout(() => { item.style.display = 'none'; }, 200);
+            item.style.display = 'none';
           }
         });
       });
     });
-
-    // Scroll reveal
-    const fadeEls = document.querySelectorAll('.fade-in');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => { if (entry.isIntersecting) { setTimeout(() => entry.target.classList.add('visible'), i * 80); observer.unobserve(entry.target); } });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-    fadeEls.forEach(el => observer.observe(el));
   </script>
 </body>
 </html>
