@@ -231,7 +231,52 @@
             </div>
           </div>
 
+          <!-- Card 3: Week 2 Progress -->
+          <div class="repo-card project-item border border-border rounded-xl overflow-hidden" data-category="aftereffects" data-project="2" style="background: #0d1117;">
+            <div class="thumb-wrap relative h-52 group">
+              <div class="card-player absolute inset-0" data-project-index="2" data-player-context="card"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-3 left-3 flex gap-2 pointer-events-none">
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">after effects</span>
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider text-textMuted border border-border" style="background: #161b22;">motion</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between gap-4 mb-2">
+                <h3 class="font-sans font-semibold text-lg text-textMain">week-2-progress</h3>
+                <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18" aria-hidden="true"></span>
+              </div>
+              <p class="text-textMuted text-xs leading-relaxed mb-4">An ongoing study of dynamic visual sequences and temporal transitions.</p>
+              <div class="flex items-center gap-4 text-xs text-textMuted">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonBlue"></span>After Effects</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Week 3 Progress -->
+          <div class="repo-card project-item border border-border rounded-xl overflow-hidden" data-category="aftereffects" data-project="3" style="background: #0d1117;">
+            <div class="thumb-wrap relative h-52 group">
+              <div class="card-player absolute inset-0" data-project-index="3" data-player-context="card"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-3 left-3 flex gap-2 pointer-events-none">
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">after effects</span>
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider text-textMuted border border-border" style="background: #161b22;">visuals</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between gap-4 mb-2">
+                <h3 class="font-sans font-semibold text-lg text-textMain">week-3-progress</h3>
+                <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18" aria-hidden="true"></span>
+              </div>
+              <p class="text-textMuted text-xs leading-relaxed mb-4">A focused exploration of layered visual elements and composite structures.</p>
+              <div class="flex items-center gap-4 text-xs text-textMuted">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonBlue"></span>After Effects</span>
+              </div>
+            </div>
+          </div>
+
         </div>
+    </div>
   </section>
 
   <!-- ==================== PROJECT DETAIL MODAL ==================== -->
@@ -251,7 +296,7 @@
           <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
             <div>
               <div class="flex flex-wrap gap-2 mb-2" id="modal-tags"></div>
-              <h2 class="font-sans font-bold text-2xl md:text-3xl text-textMain" id="modal-title"></h2>
+              <h2 class="font-sans font-bold text-2xl md:text-3xl text-textMain" id="modal-title">&nbsp;</h2>
             </div>
           </div>
           <div>
@@ -493,6 +538,32 @@
         ],
         github: 'https://github.com', demo: 'https://youtu.be/vJxk8hLVPio',
         videoEmbed: 'https://www.youtube.com/embed/vJxk8hLVPio',
+        hasCalc: false
+      },
+      {
+        title: 'Week 2 Progress',
+        tags: [{ label:'after effects', color:'blue' }, { label:'motion', color:'muted' }],
+        description: 'An ongoing study of dynamic visual sequences and temporal transitions.',
+        stack: ['After Effects','Keyframing','Motion Blur','Composition'],
+        stars: 15, forks: 2, views: '120', date: 'Updated 3 days ago',
+        gallery: [
+          'https://i.ytimg.com/vi/WZ4oDMUJlSU/hqdefault.jpg'
+        ],
+        github: 'https://github.com', demo: 'https://www.youtube.com/watch?v=WZ4oDMUJlSU',
+        videoEmbed: 'https://www.youtube.com/embed/WZ4oDMUJlSU',
+        hasCalc: false
+      },
+      {
+        title: 'Week 3 Progress',
+        tags: [{ label:'after effects', color:'blue' }, { label:'visuals', color:'muted' }],
+        description: 'A focused exploration of layered visual elements and composite structures.',
+        stack: ['After Effects','Blending Modes','Effects','Rendering'],
+        stars: 8, forks: 1, views: '85', date: 'Updated today',
+        gallery: [
+          'https://i.ytimg.com/vi/XrbPwENmbKs/hqdefault.jpg'
+        ],
+        github: 'https://github.com', demo: 'https://youtu.be/XrbPwENmbKs',
+        videoEmbed: 'https://www.youtube.com/embed/XrbPwENmbKs',
         hasCalc: false
       }
     ];
