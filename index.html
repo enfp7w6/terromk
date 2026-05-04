@@ -32,10 +32,10 @@
   </script>
   <style>
     ::selection { background: #00FF0044; color: #00FF00; }
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #111111; }
-    ::-webkit-scrollbar-thumb { background: #333333; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #00FF00; }
+    html {
+      scrollbar-width: thin;
+      scrollbar-color: #333333 #111111;
+    }
     body { background: #000000; font-family: 'JetBrains Mono', monospace; }
     .syntax-keyword { color: #ff7b72; }
     .syntax-string { color: #a5d6ff; }
@@ -76,8 +76,8 @@
       background: #0a0a0a; border: 1px solid #333333; color: #e6e6e6;
       font-family: 'JetBrains Mono', monospace; font-size: 12px;
       padding: 6px 10px; border-radius: 6px; outline: none;
+      color-scheme: dark;
     }
-    .age-input::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
     .calc-btn { }
     .age-result-card { }
     .filter-btn { }
@@ -531,13 +531,10 @@
         stack: ['After Effects','Pen Tool','Mask Feathering','Roto Brush','Alpha Matte','Keyframe Interpolation'],
         stars: 42, forks: 7, views: '480', date: 'Updated 1 week ago',
         gallery: [
-          'https://i.ytimg.com/vi/vJxk8hLVPio/hqdefault.jpg',
-          'https://i.ytimg.com/vi/vJxk8hLVPio/1.jpg',
-          'https://i.ytimg.com/vi/vJxk8hLVPio/2.jpg',
-          'https://i.ytimg.com/vi/vJxk8hLVPio/3.jpg'
+          'https://i.ytimg.com/vi/-I6x8zqvkNo/hqdefault.jpg'
         ],
-        github: 'https://github.com', demo: 'https://youtu.be/vJxk8hLVPio',
-        videoEmbed: 'https://www.youtube.com/embed/vJxk8hLVPio',
+        github: 'https://github.com', demo: 'https://youtu.be/-I6x8zqvkNo',
+        videoEmbed: 'https://www.youtube.com/embed/-I6x8zqvkNo',
         hasCalc: false
       },
       {
