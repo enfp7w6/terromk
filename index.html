@@ -275,6 +275,28 @@
             </div>
           </div>
 
+          <!-- Card 5: Week 4 Progress -->
+          <div class="repo-card project-item border border-border rounded-xl overflow-hidden" data-category="aftereffects" data-project="4" style="background: #0d1117;">
+            <div class="thumb-wrap relative h-52 group">
+              <div class="card-player absolute inset-0" data-project-index="4" data-player-context="card"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-3 left-3 flex gap-2 pointer-events-none">
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">after effects</span>
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider text-textMuted border border-border" style="background: #161b22;">visuals</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between gap-4 mb-2">
+                <h3 class="font-sans font-semibold text-lg text-textMain">week-4-progress</h3>
+                <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18" aria-hidden="true"></span>
+              </div>
+              <p class="text-textMuted text-xs leading-relaxed mb-4">Advanced visual effects and motion graphics exploration.</p>
+              <div class="flex items-center gap-4 text-xs text-textMuted">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonBlue"></span>After Effects</span>
+              </div>
+            </div>
+          </div>
+
         </div>
     </div>
   </section>
@@ -304,6 +326,14 @@
               <span class="iconify text-neonGreen" data-icon="mdi:text-box-outline" data-width="14"></span>Description
             </h3>
             <p class="text-textMuted text-sm leading-relaxed" id="modal-description"></p>
+          </div>
+
+          <!-- VIDEO GRID (For Solar System) -->
+          <div id="modal-video-grid-section" style="display:none;">
+            <h3 class="text-[10px] uppercase tracking-widest text-textMuted mb-3 flex items-center gap-2">
+              <span class="iconify text-neonGreen" data-icon="mdi:video-collection-outline" data-width="14"></span>Planet Previews
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="modal-video-grid"></div>
           </div>
 
           <!-- PLANETARY DATA CALCULATOR -->
@@ -511,7 +541,7 @@
       {
         title: 'Solar System',
         tags: [{ label:'blender', color:'green' }, { label:'eevee', color:'blue' }],
-        description: 'A digital simulation exploring celestial mechanics and spatial systems.',
+        description: 'A digital simulation',
         stack: ['Blender 4.0','EEVEE','Shader Nodes','Keyframe Animation','Procedural Textures','Compositor'],
         stars: 128, forks: 23, views: '3.2k', date: 'Updated 2 days ago',
         gallery: [
@@ -522,7 +552,15 @@
         ],
         github: 'https://github.com', demo: 'https://youtu.be/9MgJXxoaoGc',
         videoEmbed: 'https://www.youtube.com/embed/9MgJXxoaoGc',
-        hasCalc: true
+        hasCalc: true,
+        videoGrid: [
+          { id: '51ZPgeD7CdE', title: 'Earth' },
+          { id: 'MEUatnDCdic', title: '0000' },
+          { id: '4a1i8V12kTU', title: 'Saturn' },
+          { id: 'gflbttlNPzA', title: 'Uranus' },
+          { id: 'n7eUqJvjJQU', title: 'Jupiter' },
+          { id: 'BZXgJIJQUDk', title: 'Venus' }
+        ]
       },
       {
         title: 'Week 1 Progress',
@@ -561,6 +599,19 @@
         ],
         github: 'https://github.com', demo: 'https://youtu.be/XrbPwENmbKs',
         videoEmbed: 'https://www.youtube.com/embed/XrbPwENmbKs',
+        hasCalc: false
+      },
+      {
+        title: 'Week 4 Progress',
+        tags: [{ label: 'after effects', color: 'blue' }, { label: 'visuals', color: 'muted' }],
+        description: 'Advanced visual effects and motion graphics exploration.',
+        stack: ['After Effects', '3D Layers', 'Camera Tracking', 'Color Grading'],
+        stars: 0, forks: 0, views: '0', date: 'Updated today',
+        gallery: [
+          'https://i.ytimg.com/vi/4FD3erqw898/hqdefault.jpg'
+        ],
+        github: 'https://github.com', demo: 'https://youtu.be/4FD3erqw898',
+        videoEmbed: 'https://www.youtube.com/embed/4FD3erqw898',
         hasCalc: false
       }
     ];
@@ -747,6 +798,25 @@
       document.getElementById('modal-stack').innerHTML = p.stack.map(s =>
         `<span class="px-3 py-1 rounded text-xs border border-border text-textMuted cursor-default">${s}</span>`
       ).join('');
+
+      const videoGridSection = document.getElementById('modal-video-grid-section');
+      const videoGridContainer = document.getElementById('modal-video-grid');
+      if (p.videoGrid) {
+        videoGridSection.style.display = '';
+        videoGridContainer.innerHTML = p.videoGrid.map((vid, i) => `
+          <div class="space-y-2">
+            <div class="modal-video-wrapper rounded-lg overflow-hidden border border-border" id="grid-video-${i}"></div>
+            <div class="text-[10px] text-textMuted text-center uppercase tracking-widest">${vid.title}</div>
+          </div>
+        `).join('');
+        p.videoGrid.forEach((vid, i) => {
+          const container = document.getElementById(`grid-video-${i}`);
+          initVideoPlayer(container, { videoEmbed: `https://www.youtube.com/embed/${vid.id}`, title: vid.title }, { autoplay: false, mute: false, lazy: true });
+        });
+      } else {
+        videoGridSection.style.display = 'none';
+      }
+
       const calcSection = document.getElementById('modal-calc-section');
       const ageSection = document.getElementById('modal-age-section');
       if (p.hasCalc) {
