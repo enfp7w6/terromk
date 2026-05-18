@@ -634,23 +634,24 @@
       events: []
     };
 
-    function monitorPlayerEvent(level, context, message, extra = {}) {
+    function monitorPlayerEvent(level, context, message, extra) {
+      extra = extra || {};
       const entry = {
         time: new Date().toISOString(),
-        level,
-        context,
-        message,
-        extra
+        level: level,
+        context: context,
+        message: message,
+        extra: extra
       };
       playerMonitor.events.push(entry);
       if (playerMonitor.events.length > 100) playerMonitor.events.shift();
       if (level === 'error') {
         playerMonitor.counts.error++;
-        console.error('[video-player]', message, { context, ...extra });
+        console.error('[video-player]', message, Object.assign({ context: context }, extra));
       } else {
         if (level === 'success') playerMonitor.counts.success++;
         if (level === 'fallback') playerMonitor.counts.fallback++;
-        console.info('[video-player]', message, { context, ...extra });
+        console.info('[video-player]', message, Object.assign({ context: context }, extra));
       }
       try {
         localStorage.setItem('videoPlayerMonitor', JSON.stringify({
@@ -663,24 +664,26 @@
 
     function extractYouTubeVideoId(project) {
       const candidates = [project.videoEmbed, project.demo].filter(Boolean);
-      for (const candidate of candidates) {
+      let videoId = '';
+      candidates.some(function(candidate) {
         const embedMatch = candidate.match(/youtube\.com\/embed\/([A-Za-z0-9_-]{11})/);
-        if (embedMatch) return embedMatch[1];
+        if (embedMatch) { videoId = embedMatch[1]; return true; }
         const shortMatch = candidate.match(/youtu\.be\/([A-Za-z0-9_-]{11})/);
-        if (shortMatch) return shortMatch[1];
+        if (shortMatch) { videoId = shortMatch[1]; return true; }
         const watchMatch = candidate.match(/[?&]v=([A-Za-z0-9_-]{11})/);
-        if (watchMatch) return watchMatch[1];
-      }
-      return '';
+        if (watchMatch) { videoId = watchMatch[1]; return true; }
+        return false;
+      });
+      return videoId;
     }
 
-    function buildYouTubeEmbedUrl(videoId, opts = {}) {
+    function buildYouTubeEmbedUrl(videoId, opts) {
+      opts = opts || {};
       if (!/^[A-Za-z0-9_-]{11}$/.test(videoId)) return '';
-      const params = new URLSearchParams({
-        ...videoPlayerConfig.defaults,
+      const params = new URLSearchParams(Object.assign({}, videoPlayerConfig.defaults, {
         autoplay: opts.autoplay ? '1' : '0',
         mute: opts.mute ? '1' : '0'
-      });
+      }));
       return `${videoPlayerConfig.embedHost}${videoId}?${params.toString()}`;
     }
 
@@ -698,7 +701,8 @@
       });
     }
 
-    function initVideoPlayer(container, project, opts = {}) {
+    function initVideoPlayer(container, project, opts) {
+      opts = opts || {};
       const context = container.dataset.playerContext || 'unknown';
       const videoId = extractYouTubeVideoId(project);
       if (!videoId) {
