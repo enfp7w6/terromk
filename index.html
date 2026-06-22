@@ -1,1 +1,1247 @@
-nooo
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>francine.dev — Multimedia Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            base: '#1e1e1e', surface: '#252526', surfaceHover: '#2a2d2e',
+            border: '#333333', textMain: '#e6e6e6', textMuted: '#858585',
+            neonGreen: '#00FF00', neonBlue: '#00D7FF',
+            neonGreenDim: '#00FF0033', neonBlueDim: '#00D7FF33',
+            pureBlack: '#000000', darkGray: '#111111', codeBg: '#0d1117',
+          },
+          fontFamily: {
+            sans: ['Space Grotesk', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          animation: {},
+          keyframes: {},
+        }
+      }
+    }
+  </script>
+  <style>
+    ::selection { background: #00FF0044; color: #00FF00; }
+    html {
+      scrollbar-width: thin;
+      scrollbar-color: #333333 #111111;
+    }
+    body { background: #000000; font-family: 'JetBrains Mono', monospace; }
+    .syntax-keyword { color: #ff7b72; }
+    .syntax-string { color: #a5d6ff; }
+    .syntax-variable { color: #ffa657; }
+    .syntax-number { color: #00D7FF; }
+    .syntax-tag { color: #00FF00; }
+    .repo-card { cursor: pointer; }
+    .nav-link { position: relative; }
+    .nav-link.active { color: #00FF00; }
+    .social-icon { }
+    .fade-in { }
+    .fade-in.visible { }
+    .terminal-header-dots span { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(0,0,0,0.85);
+      display: none; align-items: flex-start; justify-content: center;
+      padding: 2rem 1rem; overflow-y: auto;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-content { }
+    .modal-video-wrapper {
+      position: relative; padding-top: 56.25%; background: #0a0a0a; overflow: hidden;
+    }
+    .modal-video-wrapper iframe,
+    .modal-video-wrapper video,
+    .modal-video-wrapper .video-placeholder {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
+    }
+    .gallery-thumb { cursor: pointer; opacity: 0.7; }
+    .gallery-thumb.active { opacity: 1; border-color: #00FF00; }
+    .planet-btn { position: relative; overflow: hidden; }
+    .planet-btn.active { color: #00FF00; border-color: #00FF0066; background: #00FF0011; }
+    .data-row { }
+    .data-row:hover { background: #00FF0008; }
+    .planet-dot { display: inline-block; border-radius: 50%; flex-shrink: 0; }
+    .age-input {
+      background: #0a0a0a; border: 1px solid #333333; color: #e6e6e6;
+      font-family: 'JetBrains Mono', monospace; font-size: 12px;
+      padding: 6px 10px; border-radius: 6px; outline: none;
+      color-scheme: dark;
+    }
+    .calc-btn { }
+    .age-result-card { }
+    .filter-btn { }
+    .thumb-wrap {
+      position: relative;
+      background: #111;
+      overflow: hidden;
+    }
+    .repo-card .thumb-wrap img,
+    .repo-card .thumb-wrap iframe {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .repo-card .thumb-wrap iframe {
+      position: absolute; top: 0; left: 0;
+    }
+    .repo-card .thumb-wrap:hover img {
+      transform: scale(1.05);
+    }
+    .video-error {
+      position: absolute; inset: 0; display: flex;
+      align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #0a0a0a, #121212);
+      text-align: center; padding: 1rem;
+    }
+    .video-error p { font-size: 11px; color: #858585; line-height: 1.4; }
+    .video-error strong { color: #e6e6e6; font-weight: 600; }
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2rem !important; }
+      .calc-grid { grid-template-columns: 1fr !important; }
+      .age-grid { grid-template-columns: 1fr !important; }
+    }
+  </style>
+</head>
+<body class="text-textMain font-mono antialiased relative">
+
+  <!-- Navigation -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-40" style="background: rgba(0,0,0,0.8); border-bottom: 1px solid transparent;">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <a href="#hero" class="flex items-center gap-2 group">
+        <span class="text-neonGreen font-bold text-lg">$</span>
+        <span class="font-sans font-semibold text-textMain tracking-tight">francine.dev</span>
+      </a>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#hero" class="nav-link active text-sm text-textMuted">~/home</a>
+        <a href="#projects" class="nav-link text-sm text-textMuted">~/projects</a>
+        <a href="#reference" class="nav-link text-sm text-textMuted">~/reference</a>
+        <a href="#tutorials" class="nav-link text-sm text-textMuted">~/tutorials</a>
+      </div>
+      <button type="button" id="mobile-toggle" class="md:hidden text-textMuted">
+        <span class="iconify" data-icon="mdi:menu" data-width="24" id="menu-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+    <div id="mobile-menu" class="md:hidden hidden border-t border-border" style="background: rgba(17,17,17,0.95);">
+      <div class="px-6 py-4 flex flex-col gap-4">
+        <a href="#hero" class="text-sm text-textMuted">~/home</a>
+        <a href="#projects" class="text-sm text-textMuted">~/projects</a>
+        <a href="#reference" class="text-sm text-textMuted">~/reference</a>
+        <a href="#tutorials" class="text-sm text-textMuted">~/tutorials</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================== HERO ==================== -->
+  <section id="hero" class="min-h-screen flex items-center relative">
+    <div class="max-w-6xl mx-auto px-6 pt-20 pb-16 w-full">
+      <div class="max-w-3xl space-y-8">
+        <div class="flex items-center gap-2 text-sm text-textMuted">
+          <span class="text-neonGreen">➜</span>
+          <span>~/portfolio</span>
+          <span class="text-neonBlue">git:(main)</span>
+        </div>
+        <div class="space-y-2">
+          <p class="text-textMuted text-sm">// hello_world.sh</p>
+          <h1 class="hero-title font-sans font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight">
+            <span class="text-textMain">Hi, I'm </span>
+            <span class="text-neonGreen">Francine</span>
+          </h1>
+          <div class="flex items-center gap-2 text-xl md:text-2xl text-textMuted">
+            <span>&gt;</span>
+            <span id="typed-text" class="text-neonBlue"></span>
+            <span class="text-neonBlue">▊</span>
+          </div>
+        </div>
+        <p class="text-textMuted text-sm leading-relaxed max-w-lg">
+          Personal portfolio of an IT student for multimedia and authoring.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PROJECTS ==================== -->
+  <section id="projects" class="relative py-24 md:py-32">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="mb-16">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="text-neonGreen text-sm font-mono">$</span>
+          <span class="text-textMuted text-sm">ls -la ~/projects</span>
+        </div>
+        <h2 class="font-sans font-bold text-3xl md:text-4xl tracking-tight text-textMain">Projects</h2>
+        <p class="text-textMuted text-sm mt-3">Click any project to view the video and technical breakdown.</p>
+        <div class="w-16 h-px bg-neonGreen mt-6"></div>
+      </div>
+
+      <!-- Filter -->
+      <div class="flex flex-wrap gap-3 mb-10">
+        <button type="button" class="filter-btn active px-4 py-1.5 rounded-full text-xs border border-neonGreen text-neonGreen" data-filter="all">all</button>
+        <button type="button" class="filter-btn px-4 py-1.5 rounded-full text-xs border border-border text-textMuted" data-filter="blender">blender</button>
+        <button type="button" class="filter-btn px-4 py-1.5 rounded-full text-xs border border-border text-textMuted" data-filter="aftereffects">after effects</button>
+      </div>
+
+      <!-- Cards Grid -->
+      <div class="grid md:grid-cols-2 gap-6" id="projects-grid">
+
+          <!-- Card 1: Solar System -->
+          <div class="repo-card project-item border border-border rounded-xl overflow-hidden" data-category="blender" data-project="0" style="background: #0d1117;">
+            <div class="thumb-wrap relative h-52 group">
+              <div class="card-player absolute inset-0" data-project-index="0" data-player-context="card"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-3 left-3 flex gap-2 pointer-events-none">
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonGreenDim text-neonGreen border border-neonGreen">blender</span>
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">eevee</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between gap-4 mb-2">
+                <h3 class="font-sans font-semibold text-lg text-textMain">solar-system</h3>
+                <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18" aria-hidden="true"></span>
+              </div>
+              <p class="text-textMuted text-xs leading-relaxed mb-4">A digital simulation exploring celestial mechanics and spatial systems.</p>
+              <div class="flex items-center gap-4 text-xs text-textMuted">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonGreen"></span>Blender</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Week 1 Progress (Rotoscoping) -->
+          <div class="repo-card project-item border border-border rounded-xl overflow-hidden" data-category="aftereffects" data-project="1" style="background: #0d1117;">
+            <div class="thumb-wrap relative h-52 group">
+              <div class="card-player absolute inset-0" data-project-index="1" data-player-context="card"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-3 left-3 flex gap-2 pointer-events-none">
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">after effects</span>
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider text-textMuted border border-border" style="background: #161b22;">rotoscoping</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between gap-4 mb-2">
+                <h3 class="font-sans font-semibold text-lg text-textMain">week-1-progress</h3>
+                <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18"></span>
+              </div>
+              <div class="flex items-center gap-4 text-xs text-textMuted">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonBlue"></span>After Effects</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Week 2 Progress -->
+          <div class="repo-card project-item border border-border rounded-xl overflow-hidden" data-category="aftereffects" data-project="2" style="background: #0d1117;">
+            <div class="thumb-wrap relative h-52 group">
+              <div class="card-player absolute inset-0" data-project-index="2" data-player-context="card"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-3 left-3 flex gap-2 pointer-events-none">
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">after effects</span>
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider text-textMuted border border-border" style="background: #161b22;">motion</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between gap-4 mb-2">
+                <h3 class="font-sans font-semibold text-lg text-textMain">week-2-progress</h3>
+                <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18" aria-hidden="true"></span>
+              </div>
+              <div class="flex items-center gap-4 text-xs text-textMuted">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonBlue"></span>After Effects</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Week 3 Progress -->
+          <div class="repo-card project-item border border-border rounded-xl overflow-hidden" data-category="aftereffects" data-project="3" style="background: #0d1117;">
+            <div class="thumb-wrap relative h-52 group">
+              <div class="card-player absolute inset-0" data-project-index="3" data-player-context="card"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-3 left-3 flex gap-2 pointer-events-none">
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">after effects</span>
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider text-textMuted border border-border" style="background: #161b22;">visuals</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between gap-4 mb-2">
+                <h3 class="font-sans font-semibold text-lg text-textMain">week-3-progress</h3>
+                <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18" aria-hidden="true"></span>
+              </div>
+              <div class="flex items-center gap-4 text-xs text-textMuted">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonBlue"></span>After Effects</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5: Week 4 Progress -->
+          <div class="repo-card project-item border border-border rounded-xl overflow-hidden" data-category="aftereffects" data-project="4" style="background: #0d1117;">
+            <div class="thumb-wrap relative h-52 group">
+              <div class="card-player absolute inset-0" data-project-index="4" data-player-context="card"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-3 left-3 flex gap-2 pointer-events-none">
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">after effects</span>
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider text-textMuted border border-border" style="background: #161b22;">visuals</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between gap-4 mb-2">
+                <h3 class="font-sans font-semibold text-lg text-textMain">week-4-progress</h3>
+                <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18" aria-hidden="true"></span>
+              </div>
+              <div class="flex items-center gap-4 text-xs text-textMuted">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonBlue"></span>After Effects</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 6: Week 5 Progress -->
+          <div class="repo-card project-item border border-border rounded-xl overflow-hidden" data-category="aftereffects" data-project="5" style="background: #0d1117;">
+            <div class="thumb-wrap relative h-52 group">
+              <div class="card-player absolute inset-0" data-project-index="5" data-player-context="card"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-3 left-3 flex gap-2 pointer-events-none">
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">after effects</span>
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider text-textMuted border border-border" style="background: #161b22;">visuals</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between gap-4 mb-2">
+                <h3 class="font-sans font-semibold text-lg text-textMain">week-5-progress</h3>
+                <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18" aria-hidden="true"></span>
+              </div>
+              <div class="flex items-center gap-4 text-xs text-textMuted">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonBlue"></span>After Effects</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 7: Week 6 Progress -->
+          <div class="repo-card project-item border border-border rounded-xl overflow-hidden" data-category="aftereffects" data-project="6" style="background: #0d1117;">
+            <div class="thumb-wrap relative h-52 group">
+              <div class="card-player absolute inset-0" data-project-index="6" data-player-context="card"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-3 left-3 flex gap-2 pointer-events-none">
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">after effects</span>
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider text-textMuted border border-border" style="background: #161b22;">visuals</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between gap-4 mb-2">
+                <h3 class="font-sans font-semibold text-lg text-textMain">week-6-progress</h3>
+                <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18" aria-hidden="true"></span>
+              </div>
+              <div class="flex items-center gap-4 text-xs text-textMuted">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonBlue"></span>After Effects</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 8: Week 7 Progress -->
+          <div class="repo-card project-item border border-border rounded-xl overflow-hidden" data-category="aftereffects" data-project="7" style="background: #0d1117;">
+            <div class="thumb-wrap relative h-52 group">
+              <div class="card-player absolute inset-0" data-project-index="7" data-player-context="card"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-3 left-3 flex gap-2 pointer-events-none">
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">after effects</span>
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider text-textMuted border border-border" style="background: #161b22;">visuals</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between gap-4 mb-2">
+                <h3 class="font-sans font-semibold text-lg text-textMain">week-7-progress</h3>
+                <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18" aria-hidden="true"></span>
+              </div>
+              <div class="flex items-center gap-4 text-xs text-textMuted">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonBlue"></span>After Effects</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 9: Week 8 Progress -->
+          <div class="repo-card project-item border border-border rounded-xl overflow-hidden" data-category="aftereffects" data-project="8" style="background: #0d1117;">
+            <div class="thumb-wrap relative h-52 group">
+              <div class="card-player absolute inset-0" data-project-index="8" data-player-context="card"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-3 left-3 flex gap-2 pointer-events-none">
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">after effects</span>
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider text-textMuted border border-border" style="background: #161b22;">visuals</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between gap-4 mb-2">
+                <h3 class="font-sans font-semibold text-lg text-textMain">week-8-progress</h3>
+                <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18" aria-hidden="true"></span>
+              </div>
+              <div class="flex items-center gap-4 text-xs text-textMuted">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonBlue"></span>After Effects</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 10: Week 9 Progress -->
+          <div class="repo-card project-item border border-border rounded-xl overflow-hidden" data-category="aftereffects" data-project="9" style="background: #0d1117;">
+            <div class="thumb-wrap relative h-52 group">
+              <div class="card-player absolute inset-0" data-project-index="9" data-player-context="card"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-3 left-3 flex gap-2 pointer-events-none">
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">after effects</span>
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonGreenDim text-neonGreen border border-neonGreen">video player</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between gap-4 mb-2">
+                <h3 class="font-sans font-semibold text-lg text-textMain">week-9-progress</h3>
+                <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18" aria-hidden="true"></span>
+              </div>
+              <div class="flex items-center gap-4 text-xs text-textMuted">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonBlue"></span>After Effects</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 11: Week 10 Progress -->
+          <div class="repo-card project-item border border-border rounded-xl overflow-hidden" data-category="aftereffects" data-project="10" style="background: #0d1117;">
+            <div class="thumb-wrap relative h-52 group">
+              <div class="card-player absolute inset-0" data-project-index="10" data-player-context="card"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-3 left-3 flex gap-2 pointer-events-none">
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">after effects</span>
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider text-textMuted border border-border" style="background: #161b22;">visuals</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between gap-4 mb-2">
+                <h3 class="font-sans font-semibold text-lg text-textMain">week-10-progress</h3>
+                <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18" aria-hidden="true"></span>
+              </div>
+              <div class="flex items-center gap-4 text-xs text-textMuted">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonBlue"></span>After Effects</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 12: Week 11 Progress -->
+          <div class="repo-card project-item border border-border rounded-xl overflow-hidden" data-category="aftereffects" data-project="11" style="background: #0d1117;">
+            <div class="thumb-wrap relative h-52 group">
+              <div class="card-player absolute inset-0" data-project-index="11" data-player-context="card"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-3 left-3 flex gap-2 pointer-events-none">
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">after effects</span>
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider text-textMuted border border-border" style="background: #161b22;">visuals</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between gap-4 mb-2">
+                <h3 class="font-sans font-semibold text-lg text-textMain">week-11-progress</h3>
+                <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18" aria-hidden="true"></span>
+              </div>
+              <div class="flex items-center gap-4 text-xs text-textMuted">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonBlue"></span>After Effects</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+    </div>
+  </section>
+
+  <!-- ==================== REFERENCE FOOTAGE ==================== -->
+  <section id="reference" class="relative py-24 border-t border-border">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="mb-12">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="text-neonBlue text-sm font-mono">$</span>
+          <span class="text-textMuted text-sm">cat ~/inspiration/reference_footage.mp4</span>
+        </div>
+        <h2 class="font-sans font-bold text-3xl md:text-4xl tracking-tight text-textMain">Reference Footage</h2>
+        <p class="text-textMuted text-sm mt-3">External visual study material and technical reference.</p>
+        <div class="w-16 h-px bg-neonBlue mt-6"></div>
+      </div>
+
+      <div class="rounded-xl overflow-hidden border border-border bg-[#0d1117]">
+        <div class="relative w-full" style="padding-top: 56.25%;">
+          <iframe 
+            src="https://www.youtube.com/embed/sQ1M52w7kfE" 
+            title="Reference Footage"
+            class="absolute top-0 left-0 w-full h-full border-0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="p-4 bg-[#161b22] border-t border-border flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="px-1.5 py-0.5 rounded bg-neonBlueDim text-neonBlue text-[9px] uppercase font-bold tracking-tighter">Preview</span>
+            <span class="text-xs text-textMuted font-mono">source: youtube.com/watch?v=sQ1M52w7kfE</span>
+          </div>
+          <span class="text-[10px] uppercase tracking-widest text-neonBlue font-semibold">External Reference</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TUTORIAL GUIDES ==================== -->
+  <section id="tutorials" class="relative py-24 border-t border-border">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="mb-12">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="text-neonGreen text-sm font-mono">$</span>
+          <span class="text-textMuted text-sm">cat ~/tutorials/guides.md</span>
+        </div>
+        <h2 class="font-sans font-bold text-3xl md:text-4xl tracking-tight text-textMain">Tutorial Guides</h2>
+        <p class="text-textMuted text-sm mt-3">Step-by-step tutorials and technical walkthroughs.</p>
+        <div class="w-16 h-px bg-neonGreen mt-6"></div>
+      </div>
+
+      <!-- Tutorial 1: Background Removal -->
+      <div class="rounded-xl overflow-hidden border border-border bg-[#0d1117] mb-8">
+        <div class="p-6">
+          <h3 class="font-sans font-semibold text-xl text-textMain mb-4">Background Removal</h3>
+          <div class="mb-4">
+            <div class="thumb-wrap relative overflow-hidden rounded-lg border border-border">
+              <img src="background-removal-tutorial.png" alt="Background Removal Tutorial" class="w-full h-auto">
+            </div>
+          </div>
+          <p class="text-textMuted text-sm leading-relaxed">I used Adobe After Effects to trace the moving person and cut them out from the original background. By carefully tracking their movement frame by frame, I was able to separate them completely from the video scene. This left me with a clean cutout of the person, making it easy to drop them into a brand new background.</p>
+        </div>
+      </div>
+
+      <!-- Tutorial 2: Blocking in Colors -->
+      <div class="rounded-xl overflow-hidden border border-border bg-[#0d1117] mb-8">
+        <div class="p-6">
+          <h3 class="font-sans font-semibold text-xl text-textMain mb-4">Blocking in Colors</h3>
+          <div class="mb-4">
+            <div class="thumb-wrap relative overflow-hidden rounded-lg border border-border">
+              <img src="blocking-in-colors-tutorial.jpg" alt="Blocking in Colors Tutorial" class="w-full h-auto">
+            </div>
+          </div>
+          <p class="text-textMuted text-sm leading-relaxed">After cutting out the subject, the next step is blocking in the base colors for each part of the character or object. This means separating areas like the hair, skin, and clothing into flat, solid color shapes on different layers. Doing this creates a clean foundation and makes it much easier to add detailed shading and lighting to specific sections later on without messing up the rest of the image.</p>
+        </div>
+      </div>
+
+      <!-- Tutorial 3: Rim Light Outline -->
+      <div class="rounded-xl overflow-hidden border border-border bg-[#0d1117] mb-8">
+        <div class="p-6">
+          <h3 class="font-sans font-semibold text-xl text-textMain mb-4">Rim Light Outline</h3>
+          <div class="mb-4">
+            <div class="thumb-wrap relative overflow-hidden rounded-lg border border-border">
+              <img src="rim-light-outline-tutorial.png" alt="Rim Light Outline Tutorial" class="w-full h-auto">
+            </div>
+          </div>
+          <p class="text-textMuted text-sm leading-relaxed">The final step is adding a bright outline highlight around the person's body to separate them from the new background. This rim light effect wraps around the edges of the moving figure, making their silhouette pop clearly against the environment. Because this outline follows the body's exact shape, it dynamically adjusts with every movement, giving the character a polished look and a strong sense of depth within the scene.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PROJECT DETAIL MODAL ==================== -->
+  <div id="project-modal" class="modal-overlay" onclick="if(event.target===this)closeModal()">
+    <div class="modal-content w-full max-w-5xl my-8">
+      <div class="flex justify-end mb-3">
+        <button type="button" onclick="closeModal()" class="w-10 h-10 rounded-lg border border-border flex items-center justify-center text-textMuted" style="background: rgba(13,17,23,0.9);">
+          <span class="iconify" data-icon="mdi:close" data-width="20"></span>
+        </button>
+      </div>
+      <div class="rounded-xl overflow-hidden border border-border" style="background: #0d1117;">
+        <div class="modal-video-wrapper" id="modal-video-area"></div>
+        <div class="px-6 pt-4">
+          <div class="flex gap-2 overflow-x-auto pb-2" id="modal-gallery"></div>
+        </div>
+        <div class="p-6 space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+            <div>
+              <div class="flex flex-wrap gap-2 mb-2" id="modal-tags"></div>
+              <h2 class="font-sans font-bold text-2xl md:text-3xl text-textMain" id="modal-title">&nbsp;</h2>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-[10px] uppercase tracking-widest text-textMuted mb-2 flex items-center gap-2">
+              <span class="iconify text-neonGreen" data-icon="mdi:text-box-outline" data-width="14"></span>Description
+            </h3>
+            <p class="text-textMuted text-sm leading-relaxed" id="modal-description"></p>
+          </div>
+
+          <!-- VIDEO GRID (For Solar System) -->
+          <div id="modal-video-grid-section" style="display:none;">
+            <h3 class="text-[10px] uppercase tracking-widest text-textMuted mb-3 flex items-center gap-2">
+              <span class="iconify text-neonGreen" data-icon="mdi:video-collection-outline" data-width="14"></span>Planet Previews
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="modal-video-grid"></div>
+          </div>
+
+          <!-- PLANETARY DATA CALCULATOR -->
+          <div id="modal-calc-section" style="display:none;">
+            <h3 class="text-[10px] uppercase tracking-widest text-textMuted mb-3 flex items-center gap-2">
+              <span class="iconify text-neonBlue" data-icon="mdi:calculator-variant-outline" data-width="14"></span>Planetary Data Calculator
+            </h3>
+            <div class="border border-border rounded-lg overflow-hidden" style="background: #0a0a0a;">
+              <div class="terminal-header-dots flex items-center justify-between px-4 py-2 border-b border-border" style="background: #161b22;">
+                <div class="flex items-center gap-2"><span style="background:#ff5f57;"></span><span style="background:#febc2e;"></span><span style="background:#28c840;"></span></div>
+                <span class="text-[10px] text-textMuted">planetary_data.sh</span>
+                <span class="text-[10px] text-neonGreen">v1.0</span>
+              </div>
+              <div class="p-3 border-b border-border flex flex-wrap gap-1.5" id="planet-buttons"></div>
+              <div class="px-4 py-3 border-b border-border flex items-center gap-3" style="background: #0d1117;">
+                <span class="planet-dot" id="calc-planet-dot" style="width:28px;height:28px;"></span>
+                <div>
+                  <div class="font-sans font-semibold text-base text-textMain" id="calc-planet-name">—</div>
+                  <div class="text-[10px] text-textMuted" id="calc-planet-type">—</div>
+                </div>
+                <div class="ml-auto text-right hidden sm:block">
+                  <div class="text-[10px] text-textMuted">Order from Sun</div>
+                  <div class="text-sm text-neonBlue font-mono" id="calc-planet-order">—</div>
+                </div>
+              </div>
+              <div class="p-3">
+                <div class="calc-grid grid grid-cols-2 sm:grid-cols-3 gap-2" id="calc-data-grid"></div>
+              </div>
+              <div class="px-4 py-3 border-t border-border flex items-start gap-2" style="background: #0d1117;">
+                <span class="text-neonBlue mt-0.5 flex-shrink-0"><span class="iconify" data-icon="mdi:lightbulb-on-outline" data-width="14"></span></span>
+                <p class="text-[11px] text-textMuted leading-relaxed" id="calc-fun-fact">Select a planet above to view its data.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- PLANETARY AGE CALCULATOR -->
+          <div id="modal-age-section" style="display:none;">
+            <h3 class="text-[10px] uppercase tracking-widest text-textMuted mb-3 flex items-center gap-2">
+              <span class="iconify text-neonGreen" data-icon="mdi:calendar-clock-outline" data-width="14"></span>Planetary Age Calculator
+            </h3>
+            <div class="border border-border rounded-lg overflow-hidden" style="background: #0a0a0a;">
+              <div class="terminal-header-dots flex items-center justify-between px-4 py-2 border-b border-border" style="background: #161b22;">
+                <div class="flex items-center gap-2"><span style="background:#ff5f57;"></span><span style="background:#febc2e;"></span><span style="background:#28c840;"></span></div>
+                <span class="text-[10px] text-textMuted">age_calculator.sh</span>
+                <span class="text-[10px] text-neonGreen">v1.0</span>
+              </div>
+              <div class="p-4 border-b border-border flex flex-col sm:flex-row items-stretch sm:items-end gap-3" style="background: #0d1117;">
+                <div class="flex-1">
+                  <label class="text-[10px] uppercase tracking-widest text-textMuted block mb-1.5 flex items-center gap-1.5">
+                    <span class="iconify" data-icon="mdi:cake-variant-outline" data-width="12"></span>Your birthdate
+                  </label>
+                  <input type="date" id="age-birthdate" class="age-input w-full">
+                </div>
+                <button type="button" onclick="calculateAllAges()" class="calc-btn px-5 py-2 rounded-lg bg-neonGreen text-pureBlack font-sans font-semibold text-xs flex items-center justify-center gap-2 flex-shrink-0">
+                  <span class="iconify" data-icon="mdi:calculator" data-width="16"></span>Calculate Age
+                </button>
+              </div>
+              <div class="px-4 py-3 border-b border-border flex items-center justify-between" style="background: #0d1117;">
+                <div class="flex items-center gap-2">
+                  <span class="planet-dot" style="width:12px;height:12px;background:#4d9de0;"></span>
+                  <span class="text-xs text-textMuted">Your age on Earth</span>
+                </div>
+                <span class="text-sm text-textMain font-mono" id="age-earth-value">—</span>
+              </div>
+              <div class="p-3" id="age-results-area">
+                <div class="text-center py-6 text-textMuted text-xs">
+                  <span class="iconify inline-block mb-2" data-icon="mdi:rocket-launch-outline" data-width="24"></span>
+                  <p>Enter your birthdate and hit calculate to see your age on every planet.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-[10px] uppercase tracking-widest text-textMuted mb-3 flex items-center gap-2">
+              <span class="iconify text-neonGreen" data-icon="mdi:layers-triple-outline" data-width="14"></span>Tech Stack
+            </h3>
+            <div class="flex flex-wrap gap-2" id="modal-stack"></div>
+          </div>
+          <div class="flex items-center gap-6 pt-2 border-t border-border text-xs text-textMuted">
+            <span class="ml-auto" id="modal-date"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="border-t border-border py-10">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-2">
+          <span class="text-neonGreen font-bold">$</span>
+          <span class="font-sans font-semibold text-textMain text-sm">francine.dev</span>
+          <span class="text-textMuted text-xs ml-2">© 2025</span>
+        </div>
+        <div class="text-textMuted text-xs flex items-center gap-1">
+          Built with <span class="iconify text-neonGreen" data-icon="mdi:heart" data-width="12" aria-hidden="true"></span> &amp; <span class="text-neonBlue">Blender</span>
+        </div>
+      </div>
+      <div class="text-center mt-8 text-textMuted text-[10px] tracking-widest uppercase">
+        <span class="text-neonGreen">/*</span> designed for the terminal generation <span class="text-neonGreen">*/</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== SCRIPTS ==================== -->
+  <script>
+    /* jshint esversion: 6 */
+    const planetaryData = {
+      mercury: { name:'Mercury', type:'Terrestrial Planet', order:'1st', color:'#b5b5b5', orbitalPeriodDays:87.97, mass:'3.285 × 10²³ kg', diameter:'4,879 km', distFromSun:'57.9 million km', orbitalPeriod:'88 Earth days', rotationPeriod:'58.6 Earth days', moons:'0', gravity:'3.7 m/s²', avgTemp:'167°C (mean)', dayLength:'175.9 Earth days', escapeVelocity:'4.3 km/s', funFact:'Mercury is the smallest planet in our solar system and closest to the Sun. Despite being nearest to the Sun, it is not the hottest — Venus holds that record due to its thick atmosphere.' },
+      venus: { name:'Venus', type:'Terrestrial Planet', order:'2nd', color:'#e8cda0', orbitalPeriodDays:224.7, mass:'4.867 × 10²⁴ kg', diameter:'12,104 km', distFromSun:'108.2 million km', orbitalPeriod:'225 Earth days', rotationPeriod:'243 Earth days', moons:'0', gravity:'8.87 m/s²', avgTemp:'464°C (mean)', dayLength:'116.8 Earth days', escapeVelocity:'10.4 km/s', funFact:'Venus rotates backwards compared to most planets, meaning the Sun rises in the west and sets in the east. A single day on Venus is longer than its entire year.' },
+      earth: { name:'Earth', type:'Terrestrial Planet', order:'3rd', color:'#4d9de0', orbitalPeriodDays:365.25, mass:'5.972 × 10²⁴ kg', diameter:'12,742 km', distFromSun:'149.6 million km', orbitalPeriod:'365.25 days', rotationPeriod:'23.93 hours', moons:'1', gravity:'9.81 m/s²', avgTemp:'15°C (mean)', dayLength:'24 hours', escapeVelocity:'11.2 km/s', funFact:'Earth is the only known planet to support life. About 71% of its surface is covered in water, and its magnetic field protects the atmosphere from solar wind.' },
+      mars: { name:'Mars', type:'Terrestrial Planet', order:'4th', color:'#c1440e', orbitalPeriodDays:687, mass:'6.39 × 10²³ kg', diameter:'6,779 km', distFromSun:'227.9 million km', orbitalPeriod:'687 Earth days', rotationPeriod:'24.6 hours', moons:'2', gravity:'3.72 m/s²', avgTemp:'-65°C (mean)', dayLength:'24.6 hours', escapeVelocity:'5.0 km/s', funFact:'Mars has the tallest volcano in the solar system — Olympus Mons, standing at 21.9 km high, roughly 2.5 times the height of Mount Everest.' },
+      jupiter: { name:'Jupiter', type:'Gas Giant', order:'5th', color:'#c88b3a', orbitalPeriodDays:4333, mass:'1.898 × 10²⁷ kg', diameter:'139,820 km', distFromSun:'778.5 million km', orbitalPeriod:'11.86 Earth years', rotationPeriod:'9.93 hours', moons:'95', gravity:'24.79 m/s²', avgTemp:'-110°C (cloud top)', dayLength:'9.93 hours', escapeVelocity:'59.5 km/s', funFact:'Jupiter is so massive that it could fit all other planets in the solar system inside it. Its Great Red Spot is a storm that has been raging for over 400 years.' },
+      saturn: { name:'Saturn', type:'Gas Giant', order:'6th', color:'#e0c068', orbitalPeriodDays:10759, mass:'5.683 × 10²⁶ kg', diameter:'116,460 km', distFromSun:'1.434 billion km', orbitalPeriod:'29.46 Earth years', rotationPeriod:'10.7 hours', moons:'146', gravity:'10.44 m/s²', avgTemp:'-140°C (cloud top)', dayLength:'10.7 hours', escapeVelocity:'35.5 km/s', funFact:'Saturn\'s rings span up to 282,000 km but are only about 10 meters thick. The planet is less dense than water — it would theoretically float in a bathtub large enough to hold it.' },
+      uranus: { name:'Uranus', type:'Ice Giant', order:'7th', color:'#73c2d0', orbitalPeriodDays:30687, mass:'8.681 × 10²⁵ kg', diameter:'50,724 km', distFromSun:'2.871 billion km', orbitalPeriod:'84 Earth years', rotationPeriod:'17.2 hours', moons:'28', gravity:'8.69 m/s²', avgTemp:'-195°C (cloud top)', dayLength:'17.2 hours', escapeVelocity:'21.3 km/s', funFact:'Uranus rotates on its side with an axial tilt of 98°, likely caused by a massive collision billions of years ago. It was the first planet discovered with a telescope in 1781.' },
+      neptune: { name:'Neptune', type:'Ice Giant', order:'8th', color:'#3f54ba', orbitalPeriodDays:60190, mass:'1.024 × 10²⁶ kg', diameter:'49,244 km', distFromSun:'4.495 billion km', orbitalPeriod:'164.8 Earth years', rotationPeriod:'16.1 hours', moons:'16', gravity:'11.15 m/s²', avgTemp:'-200°C (cloud top)', dayLength:'16.1 hours', escapeVelocity:'23.5 km/s', funFact:'Neptune has the strongest winds in the solar system, reaching speeds of up to 2,100 km/h. It was the first planet located through mathematical prediction rather than direct observation.' },
+      pluto: { name:'Pluto', type:'Dwarf Planet', order:'9th (dwarf)', color:'#c4a882', orbitalPeriodDays:90560, mass:'1.303 × 10²² kg', diameter:'2,376 km', distFromSun:'5.906 billion km', orbitalPeriod:'248 Earth years', rotationPeriod:'6.39 Earth days', moons:'5', gravity:'0.62 m/s²', avgTemp:'-229°C (mean)', dayLength:'6.39 Earth days', escapeVelocity:'1.2 km/s', funFact:'Pluto was reclassified from a planet to a dwarf planet in 2006 by the IAU. Its largest moon, Charon, is so big relative to Pluto that they are often considered a binary system — both orbit a shared center of gravity.' }
+    };
+
+    let currentPlanet = 'earth';
+
+    function selectPlanet(key) {
+      currentPlanet = key;
+      const p = planetaryData[key];
+      document.querySelectorAll('.planet-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector(`.planet-btn[data-planet="${key}"]`).classList.add('active');
+      document.getElementById('calc-planet-dot').style.background = p.color;
+      document.getElementById('calc-planet-name').textContent = p.name;
+      document.getElementById('calc-planet-type').textContent = p.type;
+      document.getElementById('calc-planet-order').textContent = p.order;
+      const fields = [
+        { icon:'mdi:weight', label:'Mass', value:p.mass },
+        { icon:'mdi:circle-outline', label:'Diameter', value:p.diameter },
+        { icon:'mdi:white-balance-sunny', label:'Distance from Sun', value:p.distFromSun },
+        { icon:'mdi:orbit', label:'Orbital Period', value:p.orbitalPeriod },
+        { icon:'mdi:rotate-right', label:'Rotation Period', value:p.rotationPeriod },
+        { icon:'mdi:moon-waning-crescent', label:'Moons', value:p.moons },
+        { icon:'mdi:arrow-down-bold', label:'Surface Gravity', value:p.gravity },
+        { icon:'mdi:thermometer', label:'Avg Temperature', value:p.avgTemp },
+        { icon:'mdi:clock-outline', label:'Day Length', value:p.dayLength },
+        { icon:'mdi:rocket-launch-outline', label:'Escape Velocity', value:p.escapeVelocity },
+        { icon:'mdi:arrow-expand-horizontal', label:'Sun Distance (AU)', value:(parseFloat(p.distFromSun.replace(/[^0-9.]/g,''))/149.6).toFixed(2)+' AU' },
+        { icon:'mdi:scale-balance', label:'Mass (× Earth)', value:(parseFloat(p.mass.replace(/[^0-9.]/g,''))/5.972).toFixed(2)+'× Earth' }
+      ];
+      document.getElementById('calc-data-grid').innerHTML = fields.map(f => `
+        <div class="data-row flex items-start gap-2 px-3 py-2 rounded border border-border" style="background:#0d1117;">
+          <span class="iconify text-textMuted flex-shrink-0 mt-0.5" data-icon="${f.icon}" data-width="13"></span>
+          <div class="min-w-0">
+            <div class="text-[9px] uppercase tracking-wider text-textMuted">${f.label}</div>
+            <div class="text-xs text-textMain break-all">${f.value}</div>
+          </div>
+        </div>`).join('');
+      document.getElementById('calc-fun-fact').textContent = p.funFact;
+    }
+
+    function calculateAllAges() {
+      const input = document.getElementById('age-birthdate').value;
+      if (!input) {
+        document.getElementById('age-results-area').innerHTML = `<div class="text-center py-6"><span class="iconify inline-block mb-2 text-neonBlue" data-icon="mdi:alert-circle-outline" data-width="24"></span><p class="text-textMuted text-xs">Please select your birthdate first.</p></div>`;
+        return;
+      }
+      const birthDate = new Date(input), now = new Date();
+      if (birthDate > now) {
+        document.getElementById('age-results-area').innerHTML = `<div class="text-center py-6"><span class="iconify inline-block mb-2 text-neonBlue" data-icon="mdi:alert-circle-outline" data-width="24"></span><p class="text-textMuted text-xs">Birthdate cannot be in the future.</p></div>`;
+        return;
+      }
+      const diffDays = (now - birthDate) / (1000*60*60*24);
+      const earthWholeYears = Math.floor(diffDays / 365.25);
+      const remainingDays = Math.floor(diffDays - (earthWholeYears * 365.25));
+      document.getElementById('age-earth-value').innerHTML = `<span class="text-neonGreen">${earthWholeYears}</span> years, <span class="text-neonBlue">${remainingDays}</span> days`;
+      const order = ['mercury','venus','earth','mars','jupiter','saturn','uranus','neptune','pluto'];
+      let html = '<div class="age-grid grid grid-cols-1 sm:grid-cols-3 gap-2">';
+      order.forEach((key) => {
+        const p = planetaryData[key];
+        const py = diffDays / p.orbitalPeriodDays;
+        const wy = Math.floor(py), rd = Math.floor(diffDays - (wy * p.orbitalPeriodDays));
+        const sel = key === currentPlanet;
+        html += `<div class="age-result-card flex items-center gap-3 px-3 py-3 rounded-lg border ${sel?'border-neonGreen':'border-border'}" style="background:${sel?'#00FF000a':'#0d1117'};">
+          <span class="planet-dot flex-shrink-0" style="width:14px;height:14px;background:${p.color};"></span>
+          <div class="min-w-0 flex-1">
+            <div class="text-[10px] uppercase tracking-wider text-textMuted">${p.name}</div>
+            <div class="text-xs text-textMain"><span class="${sel?'text-neonGreen font-semibold':''}">${wy.toLocaleString()}</span><span class="text-textMuted"> yr</span> <span class="${sel?'text-neonBlue font-semibold':''}">${rd.toLocaleString()}</span><span class="text-textMuted"> d</span></div>
+          </div>
+          <div class="text-right flex-shrink-0">
+            <div class="text-[9px] text-textMuted">total</div>
+            <div class="text-[11px] font-mono ${sel?'text-neonGreen':'text-textMain'}">${py.toFixed(2)}</div>
+          </div>
+        </div>`;
+      });
+      html += '</div>';
+      const selP = planetaryData[currentPlanet];
+      const selPy = diffDays / selP.orbitalPeriodDays;
+      const nxtBday = (Math.floor(selPy)+1) * selP.orbitalPeriodDays;
+      const dUntil = Math.floor(Math.ceil(nxtBday - diffDays));
+      html += `<div class="mt-3 px-3 py-2.5 rounded-lg border border-neonBlueDim flex items-center gap-2" style="background:#0d1117;">
+        <span class="iconify text-neonBlue flex-shrink-0" data-icon="mdi:gift-outline" data-width="16"></span>
+        <p class="text-[11px] text-textMuted">Your next <span class="text-neonBlue">${selP.name}</span> birthday is in <span class="text-textMain font-semibold">${dUntil.toLocaleString()} Earth days</span> <span class="text-textMuted">(~${(dUntil/30.44).toFixed(1)} months)</span></p>
+      </div>`;
+      document.getElementById('age-results-area').innerHTML = html;
+    }
+
+    // ── Project Data ──
+    const projects = [
+      {
+        title: 'Solar System',
+        tags: [{ label:'blender', color:'green' }, { label:'eevee', color:'blue' }],
+        description: 'A digital simulation',
+        stack: ['Blender 4.0','EEVEE','Shader Nodes','Keyframe Animation','Procedural Textures','Compositor'],
+        stars: 128, forks: 23, views: '3.2k', date: 'Updated 2 days ago',
+        gallery: [
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Saturn_during_Equinox.jpg/800px-Saturn_during_Equinox.jpg',
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Saturn_from_Cassini_Orbiter_%282004-06-21%29.jpg/640px-Saturn_from_Cassini_Orbiter_%282004-06-21%29.jpg',
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Saturn_Storm.jpg/640px-Saturn_Storm.jpg',
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Saturn_Rings_from_Cassini.jpg/640px-Saturn_Rings_from_Cassini.jpg'
+        ],
+        github: 'https://github.com', demo: 'https://youtu.be/9MgJXxoaoGc',
+        videoEmbed: 'https://www.youtube.com/embed/9MgJXxoaoGc',
+        hasCalc: true,
+        videoGrid: [
+          { id: '51ZPgeD7CdE', title: 'Earth' },
+          { id: 'MEUatnDCdic', title: 'Mercury' },
+          { id: '4a1i8V12kTU', title: 'Saturn' },
+          { id: 'gflbttlNPzA', title: 'Uranus' },
+          { id: 'n7eUqJvjJQU', title: 'Jupiter' },
+          { id: 'BZXgJIJQUDk', title: 'Venus' }
+        ]
+      },
+      {
+        title: 'Week 1 Progress',
+        tags: [{ label:'after effects', color:'blue' }, { label:'rotoscoping', color:'muted' }],
+        description: '',
+        stack: ['After Effects','Pen Tool','Mask Feathering','Roto Brush','Alpha Matte','Keyframe Interpolation'],
+        stars: 42, forks: 7, views: '480', date: 'Updated 1 week ago',
+        gallery: [
+          'https://i.ytimg.com/vi/-I6x8zqvkNo/hqdefault.jpg'
+        ],
+        github: 'https://github.com', demo: 'https://youtu.be/-I6x8zqvkNo',
+        videoEmbed: 'https://www.youtube.com/embed/-I6x8zqvkNo',
+        hasCalc: false
+      },
+      {
+        title: 'Week 2 Progress',
+        tags: [{ label:'after effects', color:'blue' }, { label:'motion', color:'muted' }],
+        description: '',
+        stack: ['After Effects','Keyframing','Motion Blur','Composition'],
+        stars: 15, forks: 2, views: '120', date: 'Updated 3 days ago',
+        gallery: [
+          'https://i.ytimg.com/vi/WZ4oDMUJlSU/hqdefault.jpg'
+        ],
+        github: 'https://github.com', demo: 'https://www.youtube.com/watch?v=WZ4oDMUJlSU',
+        videoEmbed: 'https://www.youtube.com/embed/WZ4oDMUJlSU',
+        hasCalc: false
+      },
+      {
+        title: 'Week 3 Progress',
+        tags: [{ label:'after effects', color:'blue' }, { label:'visuals', color:'muted' }],
+        description: '',
+        stack: ['After Effects','Blending Modes','Effects','Rendering'],
+        stars: 8, forks: 1, views: '85', date: 'Updated today',
+        gallery: [
+          'https://i.ytimg.com/vi/XrbPwENmbKs/hqdefault.jpg'
+        ],
+        github: 'https://github.com', demo: 'https://youtu.be/XrbPwENmbKs',
+        videoEmbed: 'https://www.youtube.com/embed/XrbPwENmbKs',
+        hasCalc: false
+      },
+      {
+        title: 'Week 4 Progress',
+        tags: [{ label: 'after effects', color: 'blue' }, { label: 'visuals', color: 'muted' }],
+        description: '',
+        stack: ['After Effects', '3D Layers', 'Camera Tracking', 'Color Grading'],
+        stars: 0, forks: 0, views: '0', date: 'Updated today',
+        gallery: [
+          'https://i.ytimg.com/vi/4FD3erqw898/hqdefault.jpg'
+        ],
+        github: 'https://github.com', demo: 'https://youtu.be/4FD3erqw898',
+        videoEmbed: 'https://www.youtube.com/embed/4FD3erqw898',
+        hasCalc: false
+      },
+      {
+        title: 'Week 5 Progress',
+        tags: [{ label: 'after effects', color: 'blue' }, { label: 'visuals', color: 'muted' }],
+        description: '',
+        stack: ['After Effects', 'Keyframing', 'Motion Graphics', 'Visual Effects'],
+        stars: 0, forks: 0, views: '0', date: 'Updated today',
+        gallery: [
+          'https://i.ytimg.com/vi/0cSPIqv_Bg0/hqdefault.jpg'
+        ],
+        github: 'https://github.com', demo: 'https://youtu.be/0cSPIqv_Bg0',
+        videoEmbed: 'https://www.youtube.com/embed/0cSPIqv_Bg0',
+        hasCalc: false
+      },
+      {
+        title: 'Week 6 Progress',
+        tags: [{ label: 'after effects', color: 'blue' }, { label: 'visuals', color: 'muted' }],
+        description: '',
+        stack: ['After Effects', 'Compositing', 'Visual Effects', 'Rendering'],
+        stars: 0, forks: 0, views: '0', date: 'Updated today',
+        gallery: [
+          'https://i.ytimg.com/vi/_tLftK_5lII/hqdefault.jpg'
+        ],
+        github: 'https://github.com', demo: 'https://youtu.be/_tLftK_5lII',
+        videoEmbed: 'https://www.youtube.com/embed/_tLftK_5lII',
+        hasCalc: false
+      },
+      {
+        title: 'Week 7 Progress',
+        tags: [{ label: 'after effects', color: 'blue' }, { label: 'visuals', color: 'muted' }],
+        description: '',
+        stack: ['After Effects', 'Motion Sequences', 'Final Rendering', 'Post-Production'],
+        stars: 0, forks: 0, views: '0', date: 'Updated today',
+        gallery: [
+          'https://i.ytimg.com/vi/z2Nj93BVPDQ/hqdefault.jpg'
+        ],
+        github: 'https://github.com', demo: 'https://youtu.be/z2Nj93BVPDQ',
+        videoEmbed: 'https://www.youtube.com/embed/z2Nj93BVPDQ',
+        hasCalc: false
+      },
+      {
+        title: 'Week 8 Progress',
+        tags: [{ label: 'after effects', color: 'blue' }, { label: 'visuals', color: 'muted' }],
+        description: '',
+        stack: ['After Effects', 'Visual Effects', 'Motion Graphics', 'Refinement'],
+        stars: 0, forks: 0, views: '0', date: 'Updated today',
+        gallery: [
+          'https://i.ytimg.com/vi/nDXRWwjStsc/hqdefault.jpg'
+        ],
+        github: 'https://github.com', demo: 'https://youtu.be/nDXRWwjStsc',
+        videoEmbed: 'https://www.youtube.com/embed/nDXRWwjStsc',
+        hasCalc: false
+      },
+      {
+        title: 'Week 9 Progress',
+        tags: [{ label: 'after effects', color: 'blue' }, { label: 'video player', color: 'green' }],
+        description: '',
+        stack: ['After Effects', 'JavaScript', 'HTML5 Video', 'UI/UX Design'],
+        stars: 0, forks: 0, views: '0', date: 'Updated today',
+        gallery: [
+          'https://i.ytimg.com/vi/shVGPDWz5sg/hqdefault.jpg'
+        ],
+        github: 'https://github.com', demo: 'https://youtu.be/shVGPDWz5sg',
+        videoEmbed: 'https://www.youtube.com/embed/shVGPDWz5sg',
+        hasCalc: false
+      },
+      {
+        title: 'Week 10 Progress',
+        tags: [{ label: 'after effects', color: 'blue' }, { label: 'visuals', color: 'muted' }],
+        description: '',
+        stack: ['After Effects', 'Visual Effects', 'Motion Graphics', 'Final Rendering'],
+        stars: 0, forks: 0, views: '0', date: 'Updated today',
+        gallery: [
+          'https://i.ytimg.com/vi/xLc6XS5AhmM/hqdefault.jpg'
+        ],
+        github: 'https://github.com', demo: 'https://youtu.be/xLc6XS5AhmM',
+        videoEmbed: 'https://www.youtube.com/embed/xLc6XS5AhmM',
+        hasCalc: false
+      },
+      {
+        title: 'Week 11 Progress',
+        tags: [{ label: 'after effects', color: 'blue' }, { label: 'visuals', color: 'muted' }],
+        description: '',
+        stack: ['After Effects', 'Visual Effects', 'Motion Graphics', 'Post-Production'],
+        stars: 0, forks: 0, views: '0', date: 'Updated today',
+        gallery: [
+          'https://i.ytimg.com/vi/3dJB6JiEpPA/hqdefault.jpg'
+        ],
+        github: 'https://github.com', demo: 'https://youtu.be/3dJB6JiEpPA',
+        videoEmbed: 'https://www.youtube.com/embed/3dJB6JiEpPA',
+        hasCalc: false
+      }
+    ];
+
+    const videoPlayerConfig = {
+      provider: 'youtube',
+      embedHost: 'https://www.youtube.com/embed/',
+      supportedCodecs: ['H.264', 'VP9', 'AV1'],
+      defaults: {
+        rel: '0',
+        modestbranding: '1',
+        playsinline: '1',
+        iv_load_policy: '3'
+      }
+    };
+
+    const playerMonitor = {
+      counts: { success: 0, error: 0, fallback: 0 },
+      events: []
+    };
+
+    function monitorPlayerEvent(level, context, message, extra) {
+      extra = extra || {};
+      const entry = {
+        time: new Date().toISOString(),
+        level: level,
+        context: context,
+        message: message,
+        extra: extra
+      };
+      playerMonitor.events.push(entry);
+      if (playerMonitor.events.length > 100) playerMonitor.events.shift();
+      if (level === 'error') {
+        playerMonitor.counts.error++;
+        console.error('[video-player]', message, Object.assign({ context: context }, extra));
+      } else {
+        if (level === 'success') playerMonitor.counts.success++;
+        if (level === 'fallback') playerMonitor.counts.fallback++;
+        console.info('[video-player]', message, Object.assign({ context: context }, extra));
+      }
+      try {
+        localStorage.setItem('videoPlayerMonitor', JSON.stringify({
+          counts: playerMonitor.counts,
+          lastEvent: entry
+        }));
+      } catch (_) {}
+      window.videoPlayerMonitor = playerMonitor;
+    }
+
+    function extractYouTubeVideoId(project) {
+      const candidates = [project.videoEmbed, project.demo].filter(Boolean);
+      let videoId = '';
+      candidates.some(function(candidate) {
+        const embedMatch = candidate.match(/youtube\.com\/embed\/([A-Za-z0-9_-]{11})/);
+        if (embedMatch) { videoId = embedMatch[1]; return true; }
+        const shortMatch = candidate.match(/youtu\.be\/([A-Za-z0-9_-]{11})/);
+        if (shortMatch) { videoId = shortMatch[1]; return true; }
+        const watchMatch = candidate.match(/[?&]v=([A-Za-z0-9_-]{11})/);
+        if (watchMatch) { videoId = watchMatch[1]; return true; }
+        return false;
+      });
+      return videoId;
+    }
+
+    function buildYouTubeEmbedUrl(videoId, opts) {
+      opts = opts || {};
+      if (!/^[A-Za-z0-9_-]{11}$/.test(videoId)) return '';
+      const params = new URLSearchParams(Object.assign({}, videoPlayerConfig.defaults, {
+        autoplay: opts.autoplay ? '1' : '0',
+        mute: opts.mute ? '1' : '0'
+      }));
+      return `${videoPlayerConfig.embedHost}${videoId}?${params.toString()}`;
+    }
+
+    function renderPlayerError(container, project, reason) {
+      container.innerHTML = `
+        <div class="video-error">
+          <div>
+            <p><strong>Video unavailable</strong></p>
+            <p>${reason}</p>
+          </div>
+        </div>`;
+      monitorPlayerEvent('fallback', container.dataset.playerContext || 'unknown', 'Rendered player fallback', {
+        project: project.title,
+        reason
+      });
+    }
+
+    function initVideoPlayer(container, project, opts) {
+      opts = opts || {};
+      const context = container.dataset.playerContext || 'unknown';
+      const videoId = extractYouTubeVideoId(project);
+      if (!videoId) {
+        renderPlayerError(container, project, 'Missing or invalid YouTube video ID.');
+        monitorPlayerEvent('error', context, 'Invalid player configuration', {
+          project: project.title,
+          issue: 'video_id_missing'
+        });
+        return;
+      }
+
+      const embedUrl = buildYouTubeEmbedUrl(videoId, opts);
+      if (!embedUrl) {
+        renderPlayerError(container, project, 'Unsupported embed configuration.');
+        monitorPlayerEvent('error', context, 'Failed to build embed URL', {
+          project: project.title,
+          issue: 'embed_url_invalid'
+        });
+        return;
+      }
+
+      container.innerHTML = '';
+      const iframe = document.createElement('iframe');
+      iframe.src = embedUrl;
+      iframe.title = project.title;
+      iframe.loading = opts.lazy ? 'lazy' : 'eager';
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      container.appendChild(iframe);
+
+      let settled = false;
+      const timeout = setTimeout(() => {
+        if (settled) return;
+        settled = true;
+        renderPlayerError(container, project, 'Player timed out while loading.');
+        monitorPlayerEvent('error', context, 'Player load timeout', {
+          project: project.title,
+          embedUrl
+        });
+      }, 8000);
+
+      iframe.addEventListener('load', () => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timeout);
+        monitorPlayerEvent('success', context, 'Player loaded', {
+          project: project.title,
+          embedUrl,
+          codecs: videoPlayerConfig.supportedCodecs.join(', ')
+        });
+      });
+
+      iframe.addEventListener('error', () => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timeout);
+        renderPlayerError(container, project, 'Failed to initialize embedded player.');
+        monitorPlayerEvent('error', context, 'Iframe initialization error', {
+          project: project.title,
+          embedUrl
+        });
+      });
+    }
+
+    function initializeCardPlayers() {
+      document.querySelectorAll('.card-player').forEach((container) => {
+        const index = parseInt(container.dataset.projectIndex, 10);
+        const project = projects[index];
+        if (!project) {
+          monitorPlayerEvent('error', 'card', 'Card player missing project mapping', { index });
+          return;
+        }
+        initVideoPlayer(container, project, { autoplay: true, mute: true, lazy: true });
+      });
+    }
+
+    function renderModalVideo(project) {
+      const videoArea = document.getElementById('modal-video-area');
+      videoArea.dataset.playerContext = 'modal';
+      initVideoPlayer(videoArea, project, { autoplay: false, mute: false, lazy: false });
+    }
+
+    function openModal(index) {
+      const p = projects[index];
+      renderModalVideo(p);
+      const galleryEl = document.getElementById('modal-gallery');
+      galleryEl.innerHTML = p.gallery.map((img, i) => `
+        <img src="${img}" alt="Gallery ${i+1}" class="gallery-thumb w-24 h-14 object-cover rounded border ${i===0?'active border-neonGreen':'border-border'}" onerror="this.style.display='none'" onclick="switchGallery(this,${index})">
+      `).join('');
+      const tagColors = { green:'bg-neonGreenDim text-neonGreen border-neonGreen', blue:'bg-neonBlueDim text-neonBlue border-neonBlue', muted:'text-textMuted border-border' };
+      document.getElementById('modal-tags').innerHTML = p.tags.map(t =>
+        `<span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider border ${tagColors[t.color]}" ${t.color==='muted'?"style='background:#161b22'":''}>${t.label}</span>`
+      ).join('');
+      document.getElementById('modal-title').textContent = p.title;
+      document.getElementById('modal-description').textContent = p.description;
+      document.getElementById('modal-date').textContent = p.date;
+      document.getElementById('modal-stack').innerHTML = p.stack.map(s =>
+        `<span class="px-3 py-1 rounded text-xs border border-border text-textMuted cursor-default">${s}</span>`
+      ).join('');
+
+      const videoGridSection = document.getElementById('modal-video-grid-section');
+      const videoGridContainer = document.getElementById('modal-video-grid');
+      if (p.videoGrid) {
+        videoGridSection.style.display = '';
+        videoGridContainer.innerHTML = p.videoGrid.map((vid, i) => `
+          <div class="space-y-2">
+            <div class="modal-video-wrapper rounded-lg overflow-hidden border border-border" id="grid-video-${i}"></div>
+            <div class="text-[10px] text-textMuted text-center uppercase tracking-widest">${vid.title}</div>
+          </div>
+        `).join('');
+        p.videoGrid.forEach((vid, i) => {
+          const container = document.getElementById(`grid-video-${i}`);
+          initVideoPlayer(container, { videoEmbed: `https://www.youtube.com/embed/${vid.id}`, title: vid.title }, { autoplay: false, mute: false, lazy: true });
+        });
+      } else {
+        videoGridSection.style.display = 'none';
+      }
+
+      const calcSection = document.getElementById('modal-calc-section');
+      const ageSection = document.getElementById('modal-age-section');
+      if (p.hasCalc) {
+        calcSection.style.display = '';
+        ageSection.style.display = '';
+        document.getElementById('planet-buttons').innerHTML = Object.entries(planetaryData).map(([key, data]) => `
+          <button type="button" class="planet-btn flex items-center gap-1.5 px-2.5 py-1.5 rounded border border-border text-[11px] text-textMuted" data-planet="${key}" onclick="selectPlanet('${key}')">
+            <span class="planet-dot" style="width:8px;height:8px;background:${data.color};box-shadow:0 0 6px ${data.color}66;"></span>${data.name}
+          </button>`).join('');
+        document.getElementById('age-birthdate').setAttribute('max', new Date().toISOString().split('T')[0]);
+        document.getElementById('age-earth-value').textContent = '—';
+        document.getElementById('age-results-area').innerHTML = `<div class="text-center py-6 text-textMuted text-xs"><span class="iconify inline-block mb-2" data-icon="mdi:rocket-launch-outline" data-width="24"></span><p>Enter your birthdate and hit calculate to see your age on every planet.</p></div>`;
+        selectPlanet('earth');
+      } else {
+        calcSection.style.display = 'none';
+        ageSection.style.display = 'none';
+      }
+      document.getElementById('project-modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function switchGallery(thumb, index) {
+      document.querySelectorAll('.gallery-thumb').forEach(t => { t.classList.remove('active'); t.style.borderColor = ''; });
+      thumb.classList.add('active');
+      thumb.style.borderColor = '#00FF00';
+      const p = projects[index];
+      renderModalVideo(p);
+    }
+
+    function closeModal() {
+      document.getElementById('project-modal').classList.remove('open');
+      document.body.style.overflow = '';
+      const iframe = document.getElementById('modal-video-area').querySelector('iframe');
+      if (iframe) iframe.src = '';
+    }
+
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+    document.querySelectorAll('.repo-card').forEach(card => {
+      card.addEventListener('click', () => openModal(parseInt(card.dataset.project)));
+    });
+    initializeCardPlayers();
+
+    // Static text
+    document.getElementById('typed-text').textContent = 'IT Student';
+
+    // Navbar scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => { navbar.style.borderBottomColor = window.scrollY > 50 ? '#333333' : 'transparent'; });
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+      navLinks.forEach(l => { l.classList.remove('active'); if (l.getAttribute('href') === '#' + current) l.classList.add('active'); });
+    });
+
+    // Mobile menu
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+    mobileToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      menuIcon.setAttribute('data-icon', mobileMenu.classList.contains('hidden') ? 'mdi:menu' : 'mdi:close');
+    });
+    mobileMenu.querySelectorAll('a').forEach(l => l.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden'); menuIcon.setAttribute('data-icon', 'mdi:menu');
+    }));
+
+    // Filter
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectItems = document.querySelectorAll('.project-item');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => { b.classList.remove('active'); b.style.borderColor = ''; b.style.color = ''; b.style.background = ''; });
+        btn.classList.add('active');
+        btn.style.borderColor = '#00FF00'; btn.style.color = '#00FF00'; btn.style.background = '#00FF0033';
+        const filter = btn.dataset.filter;
+        projectItems.forEach(item => {
+          const cats = item.dataset.category;
+          if (filter === 'all' || cats.includes(filter)) {
+            item.style.display = '';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Explicitly export functions to window for validator and HTML access
+    window.selectPlanet = selectPlanet;
+    window.calculateAllAges = calculateAllAges;
+    window.openModal = openModal;
+    window.switchGallery = switchGallery;
+    window.closeModal = closeModal;
+  </script>
+</body>
+</html>
