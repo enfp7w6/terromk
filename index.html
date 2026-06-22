@@ -86,14 +86,14 @@
       background: #111;
       overflow: hidden;
     }
-    .thumb-wrap img {
+    .repo-card .thumb-wrap img,
+    .repo-card .thumb-wrap iframe {
       width: 100%; height: 100%; object-fit: cover;
     }
-    .thumb-wrap iframe {
-      width: 100%; height: 100%; border: 0;
+    .repo-card .thumb-wrap iframe {
       position: absolute; top: 0; left: 0;
     }
-    .thumb-wrap:hover img {
+    .repo-card .thumb-wrap:hover img {
       transform: scale(1.05);
     }
     .video-error {
@@ -402,6 +402,48 @@
             </div>
           </div>
 
+          <!-- Card 11: Week 10 Progress -->
+          <div class="repo-card project-item border border-border rounded-xl overflow-hidden" data-category="aftereffects" data-project="10" style="background: #0d1117;">
+            <div class="thumb-wrap relative h-52 group">
+              <div class="card-player absolute inset-0" data-project-index="10" data-player-context="card"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-3 left-3 flex gap-2 pointer-events-none">
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">after effects</span>
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider text-textMuted border border-border" style="background: #161b22;">visuals</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between gap-4 mb-2">
+                <h3 class="font-sans font-semibold text-lg text-textMain">week-10-progress</h3>
+                <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18" aria-hidden="true"></span>
+              </div>
+              <div class="flex items-center gap-4 text-xs text-textMuted">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonBlue"></span>After Effects</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 12: Week 11 Progress -->
+          <div class="repo-card project-item border border-border rounded-xl overflow-hidden" data-category="aftereffects" data-project="11" style="background: #0d1117;">
+            <div class="thumb-wrap relative h-52 group">
+              <div class="card-player absolute inset-0" data-project-index="11" data-player-context="card"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0d1117] via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-3 left-3 flex gap-2 pointer-events-none">
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider bg-neonBlueDim text-neonBlue border border-neonBlue">after effects</span>
+                <span class="px-2 py-0.5 rounded text-[10px] uppercase tracking-wider text-textMuted border border-border" style="background: #161b22;">visuals</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-start justify-between gap-4 mb-2">
+                <h3 class="font-sans font-semibold text-lg text-textMain">week-11-progress</h3>
+                <span class="iconify text-textMuted flex-shrink-0 mt-1" data-icon="mdi:arrow-top-right" data-width="18" aria-hidden="true"></span>
+              </div>
+              <div class="flex items-center gap-4 text-xs text-textMuted">
+                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-neonBlue"></span>After Effects</span>
+              </div>
+            </div>
+          </div>
+
         </div>
     </div>
   </section>
@@ -476,6 +518,19 @@
             </div>
           </div>
           <p class="text-textMuted text-sm leading-relaxed">After cutting out the subject, the next step is blocking in the base colors for each part of the character or object. This means separating areas like the hair, skin, and clothing into flat, solid color shapes on different layers. Doing this creates a clean foundation and makes it much easier to add detailed shading and lighting to specific sections later on without messing up the rest of the image.</p>
+        </div>
+      </div>
+
+      <!-- Tutorial 3: Rim Light Outline -->
+      <div class="rounded-xl overflow-hidden border border-border bg-[#0d1117] mb-8">
+        <div class="p-6">
+          <h3 class="font-sans font-semibold text-xl text-textMain mb-4">Rim Light Outline</h3>
+          <div class="mb-4">
+            <div class="thumb-wrap relative overflow-hidden rounded-lg border border-border">
+              <img src="rim-light-outline-tutorial.png" alt="Rim Light Outline Tutorial" class="w-full h-auto">
+            </div>
+          </div>
+          <p class="text-textMuted text-sm leading-relaxed">The final step is adding a bright outline highlight around the person's body to separate them from the new background. This rim light effect wraps around the edges of the moving figure, making their silhouette pop clearly against the environment. Because this outline follows the body's exact shape, it dynamically adjusts with every movement, giving the character a polished look and a strong sense of depth within the scene.</p>
         </div>
       </div>
     </div>
@@ -858,6 +913,32 @@
         ],
         github: 'https://github.com', demo: 'https://youtu.be/shVGPDWz5sg',
         videoEmbed: 'https://www.youtube.com/embed/shVGPDWz5sg',
+        hasCalc: false
+      },
+      {
+        title: 'Week 10 Progress',
+        tags: [{ label: 'after effects', color: 'blue' }, { label: 'visuals', color: 'muted' }],
+        description: '',
+        stack: ['After Effects', 'Visual Effects', 'Motion Graphics', 'Final Rendering'],
+        stars: 0, forks: 0, views: '0', date: 'Updated today',
+        gallery: [
+          'https://i.ytimg.com/vi/xLc6XS5AhmM/hqdefault.jpg'
+        ],
+        github: 'https://github.com', demo: 'https://youtu.be/xLc6XS5AhmM',
+        videoEmbed: 'https://www.youtube.com/embed/xLc6XS5AhmM',
+        hasCalc: false
+      },
+      {
+        title: 'Week 11 Progress',
+        tags: [{ label: 'after effects', color: 'blue' }, { label: 'visuals', color: 'muted' }],
+        description: '',
+        stack: ['After Effects', 'Visual Effects', 'Motion Graphics', 'Post-Production'],
+        stars: 0, forks: 0, views: '0', date: 'Updated today',
+        gallery: [
+          'https://i.ytimg.com/vi/3dJB6JiEpPA/hqdefault.jpg'
+        ],
+        github: 'https://github.com', demo: 'https://youtu.be/3dJB6JiEpPA',
+        videoEmbed: 'https://www.youtube.com/embed/3dJB6JiEpPA',
         hasCalc: false
       }
     ];
