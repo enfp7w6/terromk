@@ -1063,8 +1063,8 @@
       opts = opts || {};
       if (!/^[A-Za-z0-9_-]{11}$/.test(videoId)) return '';
       const params = new URLSearchParams(Object.assign({}, videoPlayerConfig.defaults, {
-        autoplay: opts.autoplay ? '1' : '0',
-        mute: opts.mute ? '1' : '0'
+        autoplay: '1',
+        mute: '1'
       }));
       return `${videoPlayerConfig.embedHost}${videoId}?${params.toString()}`;
     }
@@ -1110,43 +1110,18 @@
       const iframe = document.createElement('iframe');
       iframe.src = embedUrl;
       iframe.title = project.title;
-      iframe.loading = opts.lazy ? 'lazy' : 'eager';
-      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
-      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.loading = 'lazy';
+      iframe.referrerPolicy = 'no-referrer';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
       iframe.allowFullscreen = true;
+      iframe.style.width = '100%';
+      iframe.style.height = '100%';
+      iframe.style.border = '0';
       container.appendChild(iframe);
 
-      let settled = false;
-      const timeout = setTimeout(() => {
-        if (settled) return;
-        settled = true;
-        renderPlayerError(container, project, 'Player timed out while loading.');
-        monitorPlayerEvent('error', context, 'Player load timeout', {
-          project: project.title,
-          embedUrl
-        });
-      }, 8000);
-
-      iframe.addEventListener('load', () => {
-        if (settled) return;
-        settled = true;
-        clearTimeout(timeout);
-        monitorPlayerEvent('success', context, 'Player loaded', {
-          project: project.title,
-          embedUrl,
-          codecs: videoPlayerConfig.supportedCodecs.join(', ')
-        });
-      });
-
-      iframe.addEventListener('error', () => {
-        if (settled) return;
-        settled = true;
-        clearTimeout(timeout);
-        renderPlayerError(container, project, 'Failed to initialize embedded player.');
-        monitorPlayerEvent('error', context, 'Iframe initialization error', {
-          project: project.title,
-          embedUrl
-        });
+      monitorPlayerEvent('success', context, 'Player initialized', {
+        project: project.title,
+        embedUrl
       });
     }
 
