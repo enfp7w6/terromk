@@ -78,6 +78,7 @@
       </a>
       <div class="hidden md:flex items-center gap-8">
         <a href="#hero" class="nav-link active text-sm text-textMuted">~/home</a>
+        <a href="#about" class="nav-link text-sm text-textMuted">~/about</a>
         <a href="#projects" class="nav-link text-sm text-textMuted">~/projects</a>
         <a href="#reference" class="nav-link text-sm text-textMuted">~/reference</a>
         <a href="#tutorials" class="nav-link text-sm text-textMuted">~/tutorials</a>
@@ -89,6 +90,7 @@
     <div id="mobile-menu" class="md:hidden hidden border-t border-border" style="background: rgba(17,17,17,0.95);">
       <div class="px-6 py-4 flex flex-col gap-4">
         <a href="#hero" class="text-sm text-textMuted" onclick="document.getElementById('mobile-toggle').click()">~/home</a>
+        <a href="#about" class="text-sm text-textMuted" onclick="document.getElementById('mobile-toggle').click()">~/about</a>
         <a href="#projects" class="text-sm text-textMuted" onclick="document.getElementById('mobile-toggle').click()">~/projects</a>
         <a href="#reference" class="text-sm text-textMuted" onclick="document.getElementById('mobile-toggle').click()">~/reference</a>
         <a href="#tutorials" class="text-sm text-textMuted" onclick="document.getElementById('mobile-toggle').click()">~/tutorials</a>
@@ -115,6 +117,32 @@
         <p class="text-textMuted text-sm leading-relaxed max-w-lg">
           Personal portfolio of an IT student for multimedia and authoring.
         </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT ME -->
+  <section id="about" class="relative py-24 border-t border-border">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="mb-12">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="text-neonGreen text-sm font-mono">$</span>
+          <span class="text-textMuted text-sm">cat ~/about_me.md</span>
+        </div>
+        <h2 class="font-sans font-bold text-3xl md:text-4xl tracking-tight text-textMain">About Me</h2>
+        <div class="w-16 h-px bg-neonGreen mt-6"></div>
+      </div>
+      <div class="rounded-xl border border-border bg-codeBg p-6 md:p-8">
+        <div class="space-y-4">
+          <div class="flex items-baseline gap-3">
+            <span class="text-neonGreen text-sm font-mono">name:</span>
+            <span class="text-textMain font-sans text-xl md:text-2xl">Francine Terrobias</span>
+          </div>
+          <div class="flex items-baseline gap-3">
+            <span class="text-neonGreen text-sm font-mono">course:</span>
+            <span class="text-textMain font-sans text-xl md:text-2xl">BSIT-NS-2A</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -161,6 +189,9 @@
       <div class="rounded-xl overflow-hidden border border-border bg-codeBg">
         <div class="relative w-full" style="padding-top: 56.25%;">
           <iframe src="https://www.youtube-nocookie.com/embed/sQ1M52w7kfE?rel=0&autoplay=1&mute=1" class="absolute top-0 left-0 w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <div class="p-4 text-center text-textMuted text-xs border-t border-border">
+          <span class="text-neonBlue">⚠</span>All media in this video is used for educational or transformative purposes under fair use. All rights and credit belong to their respective owners. No copyright infringement intended.
         </div>
       </div>
     </div>
@@ -341,7 +372,8 @@
       jupiter: { name:'Jupiter', type:'Gas Giant', order:'5th', color:'#c88b3a', orbitalPeriodDays:4333, mass:'1.898 × 10²⁷ kg', diameter:'139,820 km', distFromSun:'778.5M km' },
       saturn: { name:'Saturn', type:'Gas Giant', order:'6th', color:'#e0c068', orbitalPeriodDays:10759, mass:'5.683 × 10²⁶ kg', diameter:'116,460 km', distFromSun:'1.43B km' },
       uranus: { name:'Uranus', type:'Ice Giant', order:'7th', color:'#73c2d0', orbitalPeriodDays:30687, mass:'8.681 × 10²⁵ kg', diameter:'50,724 km', distFromSun:'2.87B km' },
-      neptune: { name:'Neptune', type:'Ice Giant', order:'8th', color:'#3f54ba', orbitalPeriodDays:60190, mass:'1.024 × 10²⁶ kg', diameter:'49,244 km', distFromSun:'4.49B km' }
+      neptune: { name:'Neptune', type:'Ice Giant', order:'8th', color:'#3f54ba', orbitalPeriodDays:60190, mass:'1.024 × 10²⁶ kg', diameter:'49,244 km', distFromSun:'4.49B km' },
+      pluto: { name:'Pluto', type:'Dwarf Planet', order:'9th', color:'#b5a4c6', orbitalPeriodDays:90560, mass:'1.309 × 10²² kg', diameter:'2,377 km', distFromSun:'5.9B km' }
     };
 
     let currentPlanet = 'earth';
@@ -410,15 +442,15 @@
         videoId: '9MgJXxoaoGc',
         hasCalc: true,
         videoGrid: [
-          { id: '51ZPgeD7CdE', title: 'Earth' },
-          { id: 'MEUatnDCdic', title: 'Mercury' },
-          { id: '4a1i8V12kTU', title: 'Saturn' },
-          { id: 'gflbttlNPzA', title: 'Uranus' },
-          { id: 'n7eUqJvjJQU', title: 'Jupiter' },
+          { id: '6M_dUy9UDi0', title: 'Earth' },
+          { id: 'IGVQFb8dzkk', title: 'Mercury' },
+          { id: 'X8PFFbJqW3Q', title: 'Saturn' },
+          { id: 'Kbu27e78q50', title: 'Uranus' },
+          { id: 'j6nKEN8CtJM', title: 'Jupiter' },
           { id: 'BZXgJIJQUDk', title: 'Venus' },
-          { id: 'iLlbPJtXFDM', title: 'Mars' },
-          { id: 'esyuz5qD4D4', title: 'Neptune' },
-          { id: '4uDxERkfmJI', title: 'Pluto' }
+          { id: 'V5XftaJJicg', title: 'Mars' },
+          { id: 'JPBQvYq071U', title: 'Neptune' },
+          { id: 'sUY8saI1OD8', title: 'Pluto' }
         ]
       },
       {
